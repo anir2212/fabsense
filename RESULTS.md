@@ -1,6 +1,22 @@
 # Measured local results
 
-The SECOM section below uses attributed public UCI records. All later photo, MSA, facilities and question-router results use generated seeded data (`seed=7`) or authored development cases. The synthetic results do **not** estimate performance on an external fab or building. Raw inputs and generated outputs are ignored by Git where stated; compact evidence is linked below.
+The SECOM section below uses attributed public UCI records; the FD001 section uses NASA's public **simulated turbofan** data. All later photo, MSA, facilities and question-router results use generated seeded data (`seed=7`) or authored development cases. None estimates performance on an external fab, aircraft fleet or building. Raw inputs and generated outputs are ignored by Git where stated; compact evidence is linked below.
+
+## NASA C-MAPSS FD001 remaining-life baseline, 19 October 2026
+
+NASA's [Prognostics Center of Excellence repository](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/) supplies the archive. Its pinned SHA-256 and citation are in [data/SOURCES.md](data/SOURCES.md); the raw ZIP remains ignored. FD001 has **20,631** training cycle rows from 100 run-to-failure simulated engines, **13,096** observed test cycle rows from 100 other truncated engines, and 100 true remaining-cycle labels at their last observed test cycle. Each row has engine ID, cycle, three settings and 21 sensors. This is a simulation with one operating condition and one fault mode, not data from fab tools or an operating aircraft fleet.
+
+The model uses **109 features**: current cycle/settings/sensors plus 5- and 20-cycle trailing sensor means and current-minus-mean differences. Rolling windows reset at each engine and use no future cycles. Training targets are capped at **125 cycles** to model the common early-life plateau; official test labels remain **uncapped** (observed range 7–145) for evaluation. A seeded engine-ID split held out 20 entire training engines. Four fixed life-fraction pseudo-endpoints from each gave 80 development validation cases. The following candidates were fixed before looking at official test scores; lowest validation RMSE selected XGBoost, then it was refitted on all 100 training engines.
+
+| Candidate | Engine-held-out validation RMSE, cycles | Validation MAE, cycles | Validation asymmetric score, mean |
+|---|---:|---:|---:|
+| Training-row median | 56.66 | 49.10 | 1,293.62 |
+| Ridge with train-fitted scaling | 22.60 | 17.86 | 14.32 |
+| XGBoost, selected | **20.77** | **14.62** | 14.78 |
+
+On the official **100-engine endpoint test**, selected XGBoost reached **17.28-cycle RMSE**, **12.71-cycle MAE**, and an asymmetric score of **488.38 total / 4.88 per engine**. A fixed training-median reference reached **49.82 RMSE** and **166,570.54 total asymmetric score**; it is a deliberately simple baseline, not the best possible age-aware predictor. The score uses `d = predicted RUL − actual RUL`, summing `exp(−d/13)−1` for early predictions (`d<0`) and `exp(d/10)−1` for late predictions; late predictions cost more, following the [PHM08 scoring formulation](https://www.papers.phmsociety.org/index.php/phmconf/article/download/2348/1323). A 2,000-resample **engine-level bootstrap** of the fixed test predictions gave a descriptive RMSE interval **[14.56, 19.83]** and mean-score interval **[3.25, 6.73]**. It does not include model-selection or simulator-to-real-world uncertainty.
+
+Error varied by true remaining life: RMSE was **12.62** cycles for 25 engines at 0–30 RUL, **16.84** for 20 engines at 31–80, and **19.16** for 55 engines above 80. The evidence file [`evidence/cmapss_fd001.json`](evidence/cmapss_fd001.json) contains the exact engine split, validation scores, test metrics, interval and slices. The validation pseudo-endpoints are a fixed truncation scheme, not the official censoring mechanism. The official test was used once for the selected model and simple reference. A neural RUL model, fault-onset detector, external fleet, calibration and prospective maintenance-cost policy remain open.
 
 ## UCI SECOM yield baseline, 18 October 2026
 
@@ -14,7 +30,7 @@ The [UCI SECOM dataset](https://archive.ics.uci.edu/dataset/179/secom) has **1,5
 
 The test positive-rate average-precision baseline was **0.0541**. XGBoost was selected by development CV AP before inspecting the test; its test AP dropped to **0.0890**. Logistic regression happened to score highest on the test, but choosing it *after* seeing those scores would reuse the test for selection. A 50% precision operating threshold chosen from each candidate's development out-of-fold scores produced **zero test alerts** for all three candidates (confusion matrix TN 297, FP 0, FN 17, TP 0). Thus the experiment did not establish a useful high-precision automatic fail detector. At a fixed 5% review capacity (16 test rows), logistic ranked 4 failures (**25% precision, 23.5% recall**); forest and XGBoost each ranked one (**6.25% precision, 5.9% recall**). This is descriptive test analysis, not a threshold tuned for deployment.
 
-XGBoost's native TreeSHAP contributions were computed on the held-out matrix; the top transformed feature was anonymous `sensor_059`. The full top-20 and all fold/test metrics are in [`evidence/secom_baseline.json`](evidence/secom_baseline.json). Attribution is to model log-odds, not a physical or causal explanation. The source is a single historical dataset; no independent site, prospective window, process expert, cost curve or uncertainty interval for the final test is available. Correlation pruning and the planned wafer-map/C-MAPSS/BDG2 modules remain open.
+XGBoost's native TreeSHAP contributions were computed on the held-out matrix; the top transformed feature was anonymous `sensor_059`. The full top-20 and all fold/test metrics are in [`evidence/secom_baseline.json`](evidence/secom_baseline.json). Attribution is to model log-odds, not a physical or causal explanation. The source is a single historical dataset; no independent site, prospective window, process expert, cost curve or uncertainty interval for the final test is available. Correlation pruning and the planned wafer-map/BDG2 modules remain open; FD001's separate simulated RUL baseline is above.
 
 ## Photo bay
 
@@ -36,4 +52,4 @@ DuckDB generated 20 row-cited building/meter insights; `verify_insights` re-quer
 
 ## Verification
 
-`LOKY_MAX_CPU_COUNT=4 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q`: **12 passed**. `Streamlit AppTest` rendered all four tabs, six headline metrics and no exception. Figure files were visually inspected after generation. No Docker, Power BI, remote CI or cloud run is claimed.
+On 19 October, `LOKY_MAX_CPU_COUNT=4 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q` passed **19 tests**, including causal-feature, grouped-endpoint, score-asymmetry and archive-hash guards. The earlier `Streamlit AppTest` rendered all four tabs, six headline metrics and no exception; it was not rerun for the FD001 command, which does not change the dashboard. Figure files were visually inspected after generation. No Docker, Power BI, remote CI or cloud run is claimed.
