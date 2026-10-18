@@ -1,6 +1,20 @@
 # Measured local results
 
-All results below use generated seeded data (`seed=7`) or authored development cases. They do **not** estimate performance on external fab or building data. Generated raw outputs are ignored by Git and reproducible with `make all`.
+The SECOM section below uses attributed public UCI records. All later photo, MSA, facilities and question-router results use generated seeded data (`seed=7`) or authored development cases. The synthetic results do **not** estimate performance on an external fab or building. Raw inputs and generated outputs are ignored by Git where stated; compact evidence is linked below.
+
+## UCI SECOM yield baseline, 18 October 2026
+
+The [UCI SECOM dataset](https://archive.ics.uci.edu/dataset/179/secom) has **1,567** rows, **590** numeric sensor columns, and **104** in-house test failures (`1`; pass is `-1`). The raw archive hash is pinned in `fabstack/secom.py` and [data/SOURCES.md](data/SOURCES.md). The timestamp in the label file ordered a single 80/20 split; it was excluded from model inputs. The first **1,253** rows contained **87** failures and were used for fixed-model, stratified five-fold development. The final **314** rows contained **17** failures and were read only for the final evaluation. Missingness filtering at 50%, median imputation with missing indicators, and near-zero-variance removal were fitted **inside each fold**, then fitted once on all development rows for the held-out test. Logistic regression used balancing and scaling; the forest used balanced subsamples; XGBoost used fold-local balanced sample weights.
+
+| Candidate | Development CV AP mean ± SD | Development CV ROC AUC mean | Held-out AP | Held-out ROC AUC | Failures in top 16 risk-ranked test rows |
+|---|---:|---:|---:|---:|---:|
+| Logistic regression | 0.1463 ± 0.0463 | 0.6255 | **0.2250** | **0.7897** | **4/16** |
+| Random forest | 0.2094 ± 0.0524 | 0.7335 | 0.0614 | 0.4896 | 1/16 |
+| XGBoost | **0.2105 ± 0.1008** | 0.7047 | 0.0890 | 0.5453 | 1/16 |
+
+The test positive-rate average-precision baseline was **0.0541**. XGBoost was selected by development CV AP before inspecting the test; its test AP dropped to **0.0890**. Logistic regression happened to score highest on the test, but choosing it *after* seeing those scores would reuse the test for selection. A 50% precision operating threshold chosen from each candidate's development out-of-fold scores produced **zero test alerts** for all three candidates (confusion matrix TN 297, FP 0, FN 17, TP 0). Thus the experiment did not establish a useful high-precision automatic fail detector. At a fixed 5% review capacity (16 test rows), logistic ranked 4 failures (**25% precision, 23.5% recall**); forest and XGBoost each ranked one (**6.25% precision, 5.9% recall**). This is descriptive test analysis, not a threshold tuned for deployment.
+
+XGBoost's native TreeSHAP contributions were computed on the held-out matrix; the top transformed feature was anonymous `sensor_059`. The full top-20 and all fold/test metrics are in [`evidence/secom_baseline.json`](evidence/secom_baseline.json). Attribution is to model log-odds, not a physical or causal explanation. The source is a single historical dataset; no independent site, prospective window, process expert, cost curve or uncertainty interval for the final test is available. Correlation pruning and the planned wafer-map/C-MAPSS/BDG2 modules remain open.
 
 ## Photo bay
 

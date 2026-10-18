@@ -1,0 +1,245 @@
+{
+  "source": "https://archive.ics.uci.edu/static/public/179/secom.zip",
+  "archive_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+  "license": "CC BY 4.0",
+  "download_date_sgt": "2026-10-18",
+  "label": "1 = in-house test fail; -1 = pass; timestamps excluded from predictors",
+  "rows": 1567,
+  "raw_sensor_columns": 590,
+  "fails": 104,
+  "split": "timestamp order; first 80% development, last 20% untouched test",
+  "development_rows": 1253,
+  "development_fails": 87,
+  "test_rows": 314,
+  "test_fails": 17,
+  "development_last_timestamp": "2008-10-02 19:25:00",
+  "test_first_timestamp": "2008-10-02 20:54:00",
+  "selection": "fixed model settings; 5 stratified development folds; threshold chosen on out-of-fold development scores only",
+  "selected_by_development_cv_average_precision": "xgboost",
+  "baseline_test_average_precision": 0.054140127388535034,
+  "models": {
+    "logistic": {
+      "cv_folds": [
+        {
+          "average_precision": 0.13267330630918833,
+          "roc_auc": 0.6546003016591252
+        },
+        {
+          "average_precision": 0.22245237306237875,
+          "roc_auc": 0.6626132570338579
+        },
+        {
+          "average_precision": 0.15369879147666676,
+          "roc_auc": 0.6211254172627563
+        },
+        {
+          "average_precision": 0.10458245126252104,
+          "roc_auc": 0.5786417571320374
+        },
+        {
+          "average_precision": 0.11801960739163828,
+          "roc_auc": 0.6107043675839434
+        }
+      ],
+      "cv_average_precision_mean": 0.14628530590047867,
+      "cv_average_precision_std": 0.04631345975646368,
+      "cv_roc_auc_mean": 0.6255370201343441,
+      "cv_roc_auc_std": 0.03412461424415878,
+      "development_threshold_for_precision_0_5": 1.0,
+      "test_average_precision": 0.22495542790838197,
+      "test_roc_auc": 0.7896613190730838,
+      "test_precision_at_development_threshold": 0.0,
+      "test_recall_at_development_threshold": 0.0,
+      "test_confusion_matrix_tn_fp_fn_tp": [
+        297,
+        0,
+        17,
+        0
+      ],
+      "test_top_5_percent_review": {
+        "reviewed": 16,
+        "fails_found": 4,
+        "precision": 0.25,
+        "recall": 0.23529411764705882
+      }
+    },
+    "random_forest": {
+      "cv_folds": [
+        {
+          "average_precision": 0.15184553688416186,
+          "roc_auc": 0.7169431875314228
+        },
+        {
+          "average_precision": 0.2707690986068741,
+          "roc_auc": 0.8047210300429184
+        },
+        {
+          "average_precision": 0.23532822806718426,
+          "roc_auc": 0.6750119217930377
+        },
+        {
+          "average_precision": 0.15711353117794571,
+          "roc_auc": 0.6417571320373643
+        },
+        {
+          "average_precision": 0.23213373897531134,
+          "roc_auc": 0.8288311032567534
+        }
+      ],
+      "cv_average_precision_mean": 0.20943802674229545,
+      "cv_average_precision_std": 0.05244436570926406,
+      "cv_roc_auc_mean": 0.7334528749322994,
+      "cv_roc_auc_std": 0.08104347663158493,
+      "development_threshold_for_precision_0_5": 0.29812439335803326,
+      "test_average_precision": 0.0614063092290588,
+      "test_roc_auc": 0.4896019013666072,
+      "test_precision_at_development_threshold": 0.0,
+      "test_recall_at_development_threshold": 0.0,
+      "test_confusion_matrix_tn_fp_fn_tp": [
+        297,
+        0,
+        17,
+        0
+      ],
+      "test_top_5_percent_review": {
+        "reviewed": 16,
+        "fails_found": 1,
+        "precision": 0.0625,
+        "recall": 0.058823529411764705
+      }
+    },
+    "xgboost": {
+      "cv_folds": [
+        {
+          "average_precision": 0.13034867340805228,
+          "roc_auc": 0.5854700854700854
+        },
+        {
+          "average_precision": 0.37659572779072475,
+          "roc_auc": 0.8283261802575106
+        },
+        {
+          "average_precision": 0.2167812999371025,
+          "roc_auc": 0.7048164043872199
+        },
+        {
+          "average_precision": 0.1299657266946212,
+          "roc_auc": 0.6238323655642514
+        },
+        {
+          "average_precision": 0.19862658700160132,
+          "roc_auc": 0.7808634183287049
+        }
+      ],
+      "cv_average_precision_mean": 0.21046360296642042,
+      "cv_average_precision_std": 0.10084421297602453,
+      "cv_roc_auc_mean": 0.7046616908015544,
+      "cv_roc_auc_std": 0.1022737157907988,
+      "development_threshold_for_precision_0_5": 1.0,
+      "test_average_precision": 0.0889642813867069,
+      "test_roc_auc": 0.545256486432957,
+      "test_precision_at_development_threshold": 0.0,
+      "test_recall_at_development_threshold": 0.0,
+      "test_confusion_matrix_tn_fp_fn_tp": [
+        297,
+        0,
+        17,
+        0
+      ],
+      "test_top_5_percent_review": {
+        "reviewed": 16,
+        "fails_found": 1,
+        "precision": 0.0625,
+        "recall": 0.058823529411764705
+      },
+      "top_20_tree_shap_log_odds": [
+        {
+          "feature": "sensor_059",
+          "mean_abs_log_odds": 0.6177566647529602
+        },
+        {
+          "feature": "sensor_460",
+          "mean_abs_log_odds": 0.2334321141242981
+        },
+        {
+          "feature": "sensor_033",
+          "mean_abs_log_odds": 0.20448337495326996
+        },
+        {
+          "feature": "sensor_091",
+          "mean_abs_log_odds": 0.15743079781532288
+        },
+        {
+          "feature": "sensor_182",
+          "mean_abs_log_odds": 0.14311692118644714
+        },
+        {
+          "feature": "sensor_121",
+          "mean_abs_log_odds": 0.1390814334154129
+        },
+        {
+          "feature": "sensor_333",
+          "mean_abs_log_odds": 0.13562454283237457
+        },
+        {
+          "feature": "sensor_019",
+          "mean_abs_log_odds": 0.12862543761730194
+        },
+        {
+          "feature": "sensor_000",
+          "mean_abs_log_odds": 0.11786742508411407
+        },
+        {
+          "feature": "sensor_488",
+          "mean_abs_log_odds": 0.11491323262453079
+        },
+        {
+          "feature": "sensor_445",
+          "mean_abs_log_odds": 0.11083023250102997
+        },
+        {
+          "feature": "sensor_130",
+          "mean_abs_log_odds": 0.10550832003355026
+        },
+        {
+          "feature": "sensor_021",
+          "mean_abs_log_odds": 0.0945068746805191
+        },
+        {
+          "feature": "sensor_090",
+          "mean_abs_log_odds": 0.0939347967505455
+        },
+        {
+          "feature": "sensor_115",
+          "mean_abs_log_odds": 0.07752438634634018
+        },
+        {
+          "feature": "sensor_290",
+          "mean_abs_log_odds": 0.07568326592445374
+        },
+        {
+          "feature": "sensor_280",
+          "mean_abs_log_odds": 0.07227017730474472
+        },
+        {
+          "feature": "sensor_102",
+          "mean_abs_log_odds": 0.07150746881961823
+        },
+        {
+          "feature": "sensor_573",
+          "mean_abs_log_odds": 0.06367865204811096
+        },
+        {
+          "feature": "sensor_485",
+          "mean_abs_log_odds": 0.060104213654994965
+        }
+      ]
+    }
+  },
+  "limits": [
+    "This is one historical UCI dataset; anonymous sensors cannot be assigned physical root causes.",
+    "The held-out tail is chronological by recorded test timestamp, not a prospective deployment or site holdout.",
+    "The 0.5 precision threshold is a development target, not a guaranteed test precision or production operating point.",
+    "TreeSHAP ranks model contribution magnitude, not causal drivers of yield."
+  ]
+}

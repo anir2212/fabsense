@@ -3,7 +3,7 @@ export MPLCONFIGDIR := $(CURDIR)/.mplconfig
 export LOKY_MAX_CPU_COUNT := 4
 export OPENBLAS_NUM_THREADS := 1
 
-.PHONY: all photo msa utilities figures agent test app-test dashboard
+.PHONY: all photo msa utilities figures agent secom test app-test dashboard
 all: photo msa utilities figures agent
 photo:
 	$(PYTHON) -m fabstack.sim_grid
@@ -15,6 +15,8 @@ figures:
 	$(PYTHON) -m fabstack.figures
 agent:
 	$(PYTHON) -m fabstack.agent_eval
+secom:
+	$(PYTHON) -m fabstack.secom
 test:
 	$(PYTHON) -m pytest -q
 app-test:
