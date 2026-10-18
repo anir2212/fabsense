@@ -15,10 +15,11 @@ PHOTO = ROOT / "runs/photo_grid.json"
 UTILITIES = ROOT / "runs/utilities/results.json"
 MSA = ROOT / "runs/msa/results.json"
 DB = ROOT / "runs/utilities/fabsense.duckdb"
+CMAPSS = ROOT / "evidence/cmapss_fd001.json"
 
 st.set_page_config(page_title="FabSense local command centre", layout="wide")
 st.title("FabSense")
-st.caption("Seeded synthetic manufacturing and facilities data · local development view")
+st.caption("Seeded manufacturing/facilities data and separate simulated-engine evidence · local view")
 
 if not all(path.exists() for path in (PHOTO, UTILITIES, MSA, DB)):
     st.error("Measured artifacts are missing. Run the project Makefile targets first.")
@@ -27,8 +28,8 @@ if not all(path.exists() for path in (PHOTO, UTILITIES, MSA, DB)):
 photo = json.loads(PHOTO.read_text())
 utilities = json.loads(UTILITIES.read_text())
 msa = json.loads(MSA.read_text())
-photo_tab, utilities_tab, msa_tab, agent_tab = st.tabs(
-    ["Photo bay", "Sustainability", "Workstation MSA", "Ask the data"])
+photo_tab, utilities_tab, msa_tab, engine_tab, agent_tab = st.tabs(
+    ["Photo bay", "Sustainability", "Workstation MSA", "Engine remaining life", "Ask the data"])
 
 with photo_tab:
     st.header("Scanner train-size scenarios")
@@ -85,6 +86,36 @@ with msa_tab:
     st.image(str(ROOT / "figures/msa_agreement.png"),
              caption="Source: runs/msa/measurements.csv and results.json")
     st.json(msa["spc"])
+
+with engine_tab:
+    st.header("Simulated engine remaining life")
+    st.caption("NASA C-MAPSS FD001 · simulated turbofans, not factory or operating-fleet data")
+    if not CMAPSS.exists():
+        st.info("FD001 evidence is unavailable. Run `make cmapss` to regenerate it.")
+    else:
+        engine = json.loads(CMAPSS.read_text())
+        test = engine["official_test"]
+        interval = engine["official_test_ci_95"]["rmse_95"]
+        a, b, c = st.columns(3)
+        a.metric("Official test engines", test["n"])
+        b.metric("RMSE (cycles)", f"{test['rmse']:.2f}")
+        c.metric("MAE (cycles)", f"{test['mae']:.2f}")
+        st.caption(
+            f"Selected {engine['selected_model']} on {engine['validation_endpoint_count']} "
+            f"engine-separated development endpoints; test RMSE bootstrap interval "
+            f"[{interval[0]:.2f}, {interval[1]:.2f}] cycles."
+        )
+        st.subheader("Development selection")
+        st.dataframe([
+            {"candidate": name, "validation RMSE (cycles)": values["rmse"]}
+            for name, values in engine["validation"].items()
+        ], width="stretch")
+        st.subheader("Error by true remaining life")
+        st.dataframe([
+            {"slice": name, "engines": values["n"], "RMSE (cycles)": values["rmse"]}
+            for name, values in engine["official_test_rul_slices"].items()
+        ], width="stretch")
+        st.caption("Source: evidence/cmapss_fd001.json. One endpoint per test engine; no prospective validation.")
 
 with agent_tab:
     st.header("Ask the local data")
