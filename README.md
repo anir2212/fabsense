@@ -26,7 +26,7 @@ make all
 make test
 ```
 
-`make dashboard` opens the Streamlit view. The [query catalog](warehouse/QUERY_CATALOG.md) lists supported questions, while [results](RESULTS.md) records the seeded runs.
+`make dashboard` opens the Streamlit view. Its separate engine tab reads the committed FD001 aggregate evidence without retraining or loading raw engine data; it labels the study as simulated. The [query catalog](warehouse/QUERY_CATALOG.md) lists supported questions, while [results](RESULTS.md) records the seeded runs.
 
 The two public-data runs are independent of `make all`:
 
