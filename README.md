@@ -1,18 +1,24 @@
 # FabSense
 
-Manufacturing analytics with source-aware evidence.
-
-The local workbench covers photo-bay simulation, gauge repeatability and reproducibility, facility meter anomalies, and a bounded SQL question router over DuckDB. Those modules use seeded data. Two opt-in benchmarks examine UCI SECOM yield records and NASA's simulated C-MAPSS turbofan trajectories.
+FabSense is a local workbench for an operations engineer who needs to inspect a result and the rows or assumptions behind it. It combines a photo-bay queue simulation, a gauge study, facility-meter anomaly checks and a restricted question interface over DuckDB. Those examples use seeded, generated data. Two separate public-data studies examine UCI SECOM yield records and NASA's simulated C-MAPSS turbofan trajectories.
 
 ![Simulated photo-bay throughput tradeoff](figures/photo_tradeoff.png)
 
 ## Why this project
 
-Manufacturing improvements are easy to overstate when process variability, measurement error, and utility signals are mixed together. This project keeps those questions separate and makes each conclusion traceable to a seeded calculation.
+An improvement in throughput is hard to trust if waiting time rises, the gauge is unreliable, or an energy alert has no source row to inspect. FabSense keeps those questions visible in one place and records the evidence behind each conclusion.
 
 SECOM adds a different question: how well does a classifier trained on earlier recorded test points rank later in-house failures when only anonymous sensor columns are available? Its result is useful partly because it shows how model selection and a strict alert threshold can fail on a later slice.
 
 The FD001 study asks whether recent sensor history can estimate cycles left before a simulated engine fails. It gives the workbench a concrete predictive-maintenance experiment while keeping aircraft simulation separate from fab equipment claims.
+
+## Current milestones
+
+| Area | What works today | Next question |
+|---|---|---|
+| Local operations studies | Seeded photo, gauge and facilities pipelines; row-cited DuckDB insights and a five-tab dashboard | How do these models behave with authorized site data? |
+| SECOM yield study | Chronological holdout and development-only model selection | Can a useful alert policy survive a new time window or site? |
+| FD001 remaining-life study | Engine-separated validation and one official 100-engine endpoint result | Can it be checked on another fault mode before a maintenance use case is considered? |
 
 ## Run locally
 
@@ -46,4 +52,4 @@ make cmapss
 
 ## Scope
 
-The photo, MSA and facilities inputs are generated, and those modules are not calibrated against a real fab. SECOM is a single historical public dataset with anonymous sensors and 17 failures in its later 314-row test slice. It does not establish a causal sensor explanation, a prospective yield screen, or an operating threshold. FD001 is one simulator setting with no physical-fleet validation or maintenance policy. The planned wafer-map, neural RUL, fault-onset and public building studies remain open.
+The photo, MSA and facilities inputs are generated, and those modules are not calibrated against a real fab. SECOM is a single historical public dataset with anonymous sensors and 17 failures in its later 314-row test slice. It does not establish a causal sensor explanation, a prospective yield screen, or an operating threshold. FD001 is one simulator setting with no physical-fleet validation or maintenance policy. A browser accessibility review and the planned wafer-map, neural RUL, fault-onset and public building studies remain open.
