@@ -1,0 +1,84 @@
+{
+  "checked_at_utc": "2026-10-20T07:53:41+00:00",
+  "network": "none; archives are hashed only if already present in ignored data/raw/",
+  "archives": {
+    "uci_secom": {
+      "archive": "data/raw/secom.zip",
+      "module_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+      "documented_in_sources_md": true,
+      "evidence_json_sha256_matches": true,
+      "present_locally": true,
+      "bytes": 1964989,
+      "local_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+      "local_matches_module": true,
+      "ok": true
+    },
+    "nasa_cmapss": {
+      "archive": "data/raw/cmapss.zip",
+      "module_sha256": "c9c5dec12a945a82e8bb4446589d7fb3cc057b5e5d81fa1a12e25ee9912ad3b2",
+      "documented_in_sources_md": true,
+      "evidence_json_sha256_matches": true,
+      "present_locally": true,
+      "bytes": 12429152,
+      "local_sha256": "c9c5dec12a945a82e8bb4446589d7fb3cc057b5e5d81fa1a12e25ee9912ad3b2",
+      "local_matches_module": true,
+      "ok": true
+    }
+  },
+  "citations": {
+    "catalog_ids": [
+      "building_meter_excess_v1",
+      "flagged_excess_by_rows_v1",
+      "meter_series_by_building_v1",
+      "top_building_excess_v1"
+    ],
+    "agent_template_ids": [
+      "building_meter_excess_v1",
+      "top_building_excess_v1"
+    ],
+    "dashboard_query_ids": [
+      "meter_series_by_building_v1"
+    ],
+    "generated_artifacts_present": true,
+    "insight_query_ids": [
+      "flagged_excess_by_rows_v1"
+    ],
+    "verify_insights": {
+      "insights": 20,
+      "verified_source_row_totals": 20
+    },
+    "router_citations": 23,
+    "router_cited_rows_all_flagged": true,
+    "router_saved_answers_replayed_identically": "25/25",
+    "undocumented_query_ids": [],
+    "ok": true
+  },
+  "dashboard_numbers": {
+    "method": "Streamlit AppTest, in process (not a browser)",
+    "exceptions": [],
+    "expected_from_json": {
+      "Injected anomaly rows": "30",
+      "Precision": "100.0%",
+      "Recall": "93.3%",
+      "Old %GRR": "7.63%",
+      "New %GRR": "3.28%",
+      "New − old bias": "-0.111",
+      "Official test engines": "100",
+      "RMSE (cycles)": "17.28",
+      "MAE (cycles)": "12.71"
+    },
+    "shown": {
+      "Injected anomaly rows": "30",
+      "Precision": "100.0%",
+      "Recall": "93.3%",
+      "Old %GRR": "7.63%",
+      "New %GRR": "3.28%",
+      "New − old bias": "-0.111",
+      "Official test engines": "100",
+      "RMSE (cycles)": "17.28",
+      "MAE (cycles)": "12.71"
+    },
+    "ok": true
+  },
+  "ok": true
+}

@@ -1,0 +1,562 @@
+{
+  "started_at_utc": "2026-10-21T21:17:57+00:00",
+  "scope": "Automated axe-core scan (WCAG 2.0/2.1 A and AA tags) of each tab in headless Chrome on 127.0.0.1. Not a conformance claim; no screen reader was used.",
+  "versions": {
+    "axe_core": "4.12.1",
+    "python": "3.12.13",
+    "platform": "macOS-15.3.1-arm64-arm-64bit",
+    "chrome": "155.0.8059.85",
+    "streamlit": "1.50.0",
+    "playwright": "1.64.0"
+  },
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa"
+  ],
+  "full_evidence_skipped": null,
+  "violated_rules": {
+    "aria-allowed-attr": {
+      "impact": "critical",
+      "help": "Elements must only use supported ARIA attributes",
+      "where": [
+        "empty_evidence/Photo bay",
+        "empty_evidence/Sustainability",
+        "empty_evidence/Workstation MSA",
+        "empty_evidence/Engine remaining life",
+        "empty_evidence/Ask the data",
+        "full_evidence/Photo bay",
+        "full_evidence/Sustainability",
+        "full_evidence/Workstation MSA",
+        "full_evidence/Engine remaining life",
+        "full_evidence/Ask the data"
+      ],
+      "max_nodes": 2,
+      "app_nodes_seen": true
+    },
+    "button-name": {
+      "impact": "critical",
+      "help": "Buttons must have discernible text",
+      "where": [
+        "empty_evidence/Photo bay",
+        "empty_evidence/Sustainability",
+        "empty_evidence/Workstation MSA",
+        "empty_evidence/Engine remaining life",
+        "empty_evidence/Ask the data",
+        "full_evidence/Photo bay",
+        "full_evidence/Sustainability",
+        "full_evidence/Workstation MSA",
+        "full_evidence/Engine remaining life",
+        "full_evidence/Ask the data"
+      ],
+      "max_nodes": 1,
+      "app_nodes_seen": false
+    },
+    "summary-name": {
+      "impact": "serious",
+      "help": "Summary elements must have discernible text",
+      "where": [
+        "full_evidence/Sustainability"
+      ],
+      "max_nodes": 1,
+      "app_nodes_seen": false
+    }
+  },
+  "violated_rule_count": 3,
+  "rules_with_app_nodes": [
+    "aria-allowed-attr"
+  ],
+  "scenarios": {
+    "empty_evidence": {
+      "artifact_root": "empty_evidence",
+      "tabs": {
+        "Photo bay": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 22,
+          "inapplicable_rules": 40,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        },
+        "Sustainability": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 22,
+          "inapplicable_rules": 40,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        },
+        "Workstation MSA": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 22,
+          "inapplicable_rules": 40,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        },
+        "Engine remaining life": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 22,
+          "inapplicable_rules": 40,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        },
+        "Ask the data": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 22,
+          "inapplicable_rules": 40,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        }
+      },
+      "server_stopped": true
+    },
+    "full_evidence": {
+      "artifact_root": "full_evidence",
+      "tabs": {
+        "Photo bay": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 2,
+              "app_nodes": 1,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ],
+                [
+                  "div[aria-haspopup=\"true\"]"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">",
+                "<div aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 28,
+          "inapplicable_rules": 34,
+          "violation_nodes": 3,
+          "app_violation_nodes": 1
+        },
+        "Sustainability": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            },
+            {
+              "id": "summary-name",
+              "impact": "serious",
+              "help": "Summary elements must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/summary-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "details[title=\"Click to view actions\"] > summary"
+                ]
+              ],
+              "sample_html": [
+                "<summary>\n<svg viewBox=\"0 0 16 16\" fill=\"currentColor\" stroke=\"none\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle r=\"2\" cy=\"8\" cx=\"2\"></circle>\n  <circle r=\"2\" cy=\"8\" cx="
+              ]
+            }
+          ],
+          "needs_review": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "help": "Elements must meet minimum color contrast ratio thresholds",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=axeAPI",
+              "nodes": 29,
+              "app_nodes": 29,
+              "framework_nodes": 0,
+              "sample_targets": [
+                [
+                  "text[transform=\"translate(-1,25)\"]"
+                ],
+                [
+                  "text[transform=\"translate(54.25,25)\"]"
+                ],
+                [
+                  "text[transform=\"translate(108.5,25)\"]"
+                ]
+              ],
+              "sample_html": [
+                "<text text-anchor=\"start\" transform=\"translate(-1,25)\" font-family=\"&quot;Source Sans&quot;, sans-serif\" font-size=\"12px\" font-style=\"normal\" font-weight=\"400\" fill=\"#808495\" opacity=\"1\">240</text>",
+                "<text text-anchor=\"middle\" transform=\"translate(54.25,25)\" font-family=\"&quot;Source Sans&quot;, sans-serif\" font-size=\"12px\" font-style=\"normal\" font-weight=\"400\" fill=\"#808495\" opacity=\"1\">245</text",
+                "<text text-anchor=\"middle\" transform=\"translate(108.5,25)\" font-family=\"&quot;Source Sans&quot;, sans-serif\" font-size=\"12px\" font-style=\"normal\" font-weight=\"400\" fill=\"#808495\" opacity=\"1\">250</text"
+              ]
+            }
+          ],
+          "passed_rules": 27,
+          "inapplicable_rules": 35,
+          "violation_nodes": 3,
+          "app_violation_nodes": 0
+        },
+        "Workstation MSA": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 24,
+          "inapplicable_rules": 38,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        },
+        "Engine remaining life": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 24,
+          "inapplicable_rules": 38,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        },
+        "Ask the data": {
+          "violations": [
+            {
+              "id": "aria-allowed-attr",
+              "impact": "critical",
+              "help": "Elements must only use supported ARIA attributes",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/aria-allowed-attr?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  "#MainMenu"
+                ]
+              ],
+              "sample_html": [
+                "<span id=\"MainMenu\" class=\"stMainMenu st-emotion-cache-czk5ss eonxpjd8\" data-testid=\"stMainMenu\" aria-haspopup=\"true\" aria-expanded=\"false\">"
+              ]
+            },
+            {
+              "id": "button-name",
+              "impact": "critical",
+              "help": "Buttons must have discernible text",
+              "help_url": "https://dequeuniversity.com/rules/axe/4.12/button-name?application=axeAPI",
+              "nodes": 1,
+              "app_nodes": 0,
+              "framework_nodes": 1,
+              "sample_targets": [
+                [
+                  ".st-emotion-cache-ir6xg9"
+                ]
+              ],
+              "sample_html": [
+                "<button kind=\"headerNoPadding\" data-testid=\"stBaseButton-headerNoPadding\" aria-label=\"\" class=\"st-emotion-cache-ir6xg9 e8vg11g15\">"
+              ]
+            }
+          ],
+          "needs_review": [],
+          "passed_rules": 23,
+          "inapplicable_rules": 39,
+          "violation_nodes": 2,
+          "app_violation_nodes": 0
+        }
+      },
+      "server_stopped": true
+    }
+  },
+  "servers_stopped": true
+}

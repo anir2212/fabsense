@@ -1,2 +1,11 @@
 [browser]
 gatherUsageStats = false
+
+[theme]
+# Streamlit draws captions and inactive tab labels in the text colour at reduced
+# opacity. The default text colour left them below WCAG AA contrast on white
+# (see evidence/accessibility_scan.json); a near-black base keeps them above it.
+base = "light"
+textColor = "#111111"
+# The default red accent (selected tab label, buttons) is below 4.5:1 on white.
+primaryColor = "#B3261E"

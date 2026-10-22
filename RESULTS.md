@@ -53,3 +53,36 @@ DuckDB generated 20 row-cited building/meter insights; `verify_insights` re-quer
 ## Verification
 
 On 19 October, `LOKY_MAX_CPU_COUNT=4 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q` passed **19 tests**, including causal-feature, grouped-endpoint, score-asymmetry and archive-hash guards. After adding the separate FD001 evidence tab, `make app-test` passed; an in-process Streamlit inspection found **five tabs**, the official **100-engine / 17.28-cycle RMSE / 12.71-cycle MAE** metrics and no script exception. This is a local UI render check, not a browser, accessibility or production-server check. Figure files were visually inspected after generation. No Docker, Power BI, remote CI or cloud run is claimed.
+
+### Dashboard review checks, 20 October 2026
+
+No model or metric changed. Each dashboard tab now loads only its own evidence through `fabstack/dashboard_evidence.py`. A missing file shows a warning, and a malformed file an error; both name the file and the Make command that rebuilds it, and no values are shown from that file. The suite passed **38 tests** (`make test`), up from 19. They include AppTests for an empty artifact folder, a folder with only the committed FD001 evidence, malformed evidence, and the full project dashboard matching its saved JSON. `make app-test` passed.
+
+`make browser-test` ran headless Google Chrome 155.0.8059.82 through Playwright 1.64.0 against Streamlit 1.50.0 on 127.0.0.1 (Python 3.12.13, macOS 15.3.1 arm64). It passed **25/25 checks** across two scenarios ([`evidence/browser_walkthrough.json`](evidence/browser_walkthrough.json)):
+- **Full evidence.** All five tabs appear in order with their headers and no warning or exception. The nine displayed metrics equal the saved JSON (for example 30 injected anomaly rows, 7.63% → 3.28% %GRR, and 100 engines / 17.28 RMSE / 12.71 MAE), and so do the engine bootstrap interval and both engine tables. The question box can be reached and submitted by keyboard; it returned the cited answer for B09.
+- **Empty evidence.** Every tab names its missing file and rebuild command, and no metric value is shown.
+- **Keyboard behaviour.** In both scenarios, the arrow keys move selection and focus between tabs and wrap at both ends, the visible panel follows the selected tab, and exactly one tab has `tabindex=0`.
+
+The first browser run found two problems, which were fixed before the passing run. Streamlit 1.50 ignored the request to hide the index in `st.table`, so a meaningless 0/1/2 row-number column appeared; the engine tables are now plain Markdown tables. The checker had also read the tables before the second one rendered; it now waits for both.
+
+`make boundary-check` ([`evidence/public_data_boundary.json`](evidence/public_data_boundary.json)) found both locally present archives matching their pinned SHA-256: SECOM 1,964,989 bytes and C-MAPSS 12,429,152 bytes. The hashes agree across the code, `data/SOURCES.md` and the saved evidence. All four query IDs used are documented in `warehouse/QUERY_CATALOG.md` with none undocumented. The 20 insight totals re-verified, 23 router citations point to flagged rows, and 25/25 saved router answers replay identically. The in-process dashboard metrics equal the saved JSON. Nothing was downloaded.
+
+These are local render and consistency checks. They are not a screen-reader or WCAG audit, a production deployment, or evidence that any result applies to real equipment.
+
+### Contrast fixes and rescan, 22 October 2026
+
+The app-level contrast findings below were fixed, and `make a11y-scan` was run again ([evidence](evidence/accessibility_scan.json)):
+- `.streamlit/config.toml` now sets a light theme with text colour `#111111`, so faded captions and inactive tab labels pass AA, and accent colour `#B3261E`, because Streamlit's default red failed as the selected-tab label.
+- Two captions no longer use inline code. Captions fade everything inside them, so inline code there could not reach the required contrast whatever its colour.
+
+**Colour contrast now passes on every tab** in both the full and empty-evidence scenarios; it was failing on all ten tab views. Three rules still fail. One is an app-level `aria-allowed-attr` on a Streamlit widget's popup `div` (full-evidence Photo bay). The others are Streamlit's main menu ARIA attribute, its unnamed header button, and the Vega chart-actions `<summary>`, none of which the app controls. The Sustainability chart still has 29 contrast items axe could not decide. The browser walkthrough still passes 25/25, and 42 tests and the AppTest pass. No screen-reader pass has been done, so this remains a findings list rather than a rating.
+
+### Automated accessibility scan, 20 October 2026 (evening)
+
+`make a11y-scan` injected axe-core 4.12.1 into each of the five tabs and ran its WCAG 2.0/2.1 A and AA rules on the whole page ([`evidence/accessibility_scan.json`](evidence/accessibility_scan.json)). This used headless Chrome 155.0.8059.85, Streamlit 1.50.0 and Playwright 1.64.0, with the full and empty-evidence scenarios. Four rules failed. A selector/HTML heuristic split the offending elements into Streamlit's own page chrome and app content.
+
+The main app-level problem is colour contrast (rated serious), on every tab. It comes from the grey `st.caption` lines (the subtitle, the artifact-root note and the tab captions, including inline code inside them) and from the inactive tab labels: 2–4 elements per tab with full evidence, and 5–10 in the empty state, where captions explain the missing files. The colours are Streamlit's default theme. The full-evidence Photo bay tab also has one `aria-allowed-attr` failure (critical), a `div` with `aria-haspopup` inside a Streamlit widget.
+
+The rest is outside the app's own content. On every tab, Streamlit's main menu (`#MainMenu`) fails `aria-allowed-attr` and the unnamed header button `stBaseButton-headerNoPadding` fails `button-name` (critical). On the Sustainability tab, the Vega chart's actions menu has an unnamed `<summary>` (`summary-name`, serious).
+
+Between 22 and 28 rules passed per tab. The Sustainability chart also produced 29 contrast items axe could not decide ("needs review"). No fixes were applied in this run. An automated scan finds only some problems, and no screen-reader pass was done, so this is a findings list, not an accessibility rating. 42 tests pass, including 4 new tests of the scan's pure helpers. Sample HTML in the evidence has local temporary and home paths replaced with `<local-path>`.
