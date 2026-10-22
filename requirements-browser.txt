@@ -1,0 +1,3 @@
+playwright==1.64.0
+# Only its bundled axe-core 4.12.1 (MPL-2.0) is used, by `make a11y-scan`.
+axe-playwright-python==0.1.8

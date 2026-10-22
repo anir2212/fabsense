@@ -17,6 +17,7 @@ The FD001 study asks whether recent sensor history can estimate cycles left befo
 | Area | What works today | Next question |
 |---|---|---|
 | Local operations studies | Seeded photo, gauge and facilities pipelines; row-cited DuckDB insights and a five-tab dashboard | How do these models behave with authorized site data? |
+| Dashboard review | Each tab names a missing or malformed evidence file and its rebuild command instead of showing numbers. A headless-Chrome walkthrough (`make browser-test`) checks the five tabs, keyboard navigation, saved metrics and the empty-evidence state. An automated axe-core scan (`make a11y-scan`) found low-contrast captions and tab labels, fixed on 22 October; the remaining findings are in Streamlit's own page chrome and one widget attribute | Does it hold up in a manual screen-reader review? The scan is not a WCAG conformance claim |
 | SECOM yield study | Chronological holdout and development-only model selection | Can a useful alert policy survive a new time window or site? |
 | FD001 remaining-life study | Engine-separated validation and one official 100-engine endpoint result | Can it be checked on another fault mode before a maintenance use case is considered? |
 
@@ -32,7 +33,7 @@ make all
 make test
 ```
 
-`make dashboard` opens the Streamlit view. Its separate engine tab reads the committed FD001 aggregate evidence without retraining or loading raw engine data; it labels the study as simulated. The [query catalog](warehouse/QUERY_CATALOG.md) lists supported questions, while [results](RESULTS.md) records the seeded runs.
+`make dashboard` opens the Streamlit view. The browser walkthrough and accessibility scan need `pip install -r requirements-browser.txt` and an installed Google Chrome; [results](RESULTS.md) records their latest evidence. Its separate engine tab reads the committed FD001 aggregate evidence without retraining or loading raw engine data; it labels the study as simulated. The [query catalog](warehouse/QUERY_CATALOG.md) lists supported questions, while [results](RESULTS.md) records the seeded runs.
 
 The two public-data runs are independent of `make all`:
 

@@ -1,0 +1,674 @@
+{
+  "started_at_utc": "2026-10-21T21:18:59+00:00",
+  "finished_at_utc": "2026-10-21T21:19:16+00:00",
+  "scope": "Local headless Chrome check on 127.0.0.1; not a production, load or full accessibility audit.",
+  "versions": {
+    "python": "3.12.13",
+    "platform": "macOS-15.3.1-arm64-arm-64bit",
+    "streamlit": "1.50.0",
+    "playwright": "1.64.0",
+    "chrome": "155.0.8059.85"
+  },
+  "full_evidence_skipped": null,
+  "scenarios": {
+    "empty_evidence": {
+      "artifact_root": "empty temporary directory",
+      "tabs_found": [
+        "Photo bay",
+        "Sustainability",
+        "Workstation MSA",
+        "Engine remaining life",
+        "Ask the data"
+      ],
+      "panels": [
+        {
+          "tab": "Photo bay",
+          "header": "Scanner train-size scenarios",
+          "metrics": {},
+          "alerts": [
+            {
+              "kind": "warning",
+              "text": "Missing evidence file figures/photo_tradeoff.png. No values are shown from it. Regenerate it with make photo msa figures."
+            },
+            {
+              "kind": "warning",
+              "text": "Missing evidence file runs/photo_grid.json. No values are shown from it. Regenerate it with make photo."
+            }
+          ]
+        },
+        {
+          "tab": "Sustainability",
+          "header": "Weather-adjusted meter exceptions",
+          "metrics": {},
+          "alerts": [
+            {
+              "kind": "warning",
+              "text": "Missing evidence file runs/utilities/results.json. No values are shown from it. Regenerate it with make utilities."
+            },
+            {
+              "kind": "warning",
+              "text": "Missing evidence file runs/utilities/fabsense.duckdb. No values are shown from it. Regenerate it with make utilities."
+            }
+          ]
+        },
+        {
+          "tab": "Workstation MSA",
+          "header": "Old versus new workstation",
+          "metrics": {},
+          "alerts": [
+            {
+              "kind": "warning",
+              "text": "Missing evidence file runs/msa/results.json. No values are shown from it. Regenerate it with make msa."
+            },
+            {
+              "kind": "warning",
+              "text": "Missing evidence file figures/msa_agreement.png. No values are shown from it. Regenerate it with make photo msa figures."
+            }
+          ]
+        },
+        {
+          "tab": "Engine remaining life",
+          "header": "Simulated engine remaining life",
+          "metrics": {},
+          "alerts": [
+            {
+              "kind": "warning",
+              "text": "Missing evidence file evidence/cmapss_fd001.json. No values are shown from it. Regenerate it with make cmapss."
+            }
+          ]
+        },
+        {
+          "tab": "Ask the data",
+          "header": "Ask the local data",
+          "metrics": {},
+          "alerts": [
+            {
+              "kind": "warning",
+              "text": "Missing evidence file runs/utilities/fabsense.duckdb. No values are shown from it. Regenerate it with make utilities."
+            }
+          ]
+        }
+      ],
+      "metric_elements": 0,
+      "keyboard": {
+        "steps": [
+          {
+            "key": "(focus first tab)",
+            "focused": "Photo bay",
+            "selected": [
+              "Photo bay"
+            ],
+            "tabindex": [
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Scanner train-size scenarios"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Sustainability",
+            "selected": [
+              "Sustainability"
+            ],
+            "tabindex": [
+              "-1",
+              "0",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Weather-adjusted meter exceptions"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Workstation MSA",
+            "selected": [
+              "Workstation MSA"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "0",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Old versus new workstation"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Engine remaining life",
+            "selected": [
+              "Engine remaining life"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "0",
+              "-1"
+            ],
+            "panel_header": "Simulated engine remaining life"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Photo bay",
+            "selected": [
+              "Photo bay"
+            ],
+            "tabindex": [
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Scanner train-size scenarios"
+          },
+          {
+            "key": "ArrowLeft",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "Home",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Photo bay",
+            "selected": [
+              "Photo bay"
+            ],
+            "tabindex": [
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Scanner train-size scenarios"
+          },
+          {
+            "key": "ArrowLeft",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "ArrowLeft",
+            "focused": "Engine remaining life",
+            "selected": [
+              "Engine remaining life"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "0",
+              "-1"
+            ],
+            "panel_header": "Simulated engine remaining life"
+          },
+          {
+            "key": "End",
+            "focused": "Engine remaining life",
+            "selected": [
+              "Engine remaining life"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "0",
+              "-1"
+            ],
+            "panel_header": "Simulated engine remaining life"
+          }
+        ],
+        "checks": {
+          "arrow_right_moves_selection_and_focus": true,
+          "arrow_right_wraps_last_to_first": true,
+          "arrow_left_wraps_first_to_last": true,
+          "panel_follows_selected_tab": true,
+          "roving_tabindex_single_zero": true
+        },
+        "observed_not_required": {
+          "home_from_last_tab_selected": [
+            "Ask the data"
+          ],
+          "home_moves_to_first_tab": false,
+          "end_pressed_from": [
+            "Engine remaining life"
+          ],
+          "end_selected": [
+            "Engine remaining life"
+          ],
+          "end_moves_to_last_tab": false
+        }
+      },
+      "screenshot": "evidence/browser/empty_engine_tab.jpg",
+      "checks": {
+        "five_tabs_in_order": true,
+        "each_tab_header_visible": true,
+        "every_tab_names_missing_file_and_command": true,
+        "no_metric_values_without_evidence": true,
+        "no_script_exception": true,
+        "arrow_right_moves_selection_and_focus": true,
+        "arrow_right_wraps_last_to_first": true,
+        "arrow_left_wraps_first_to_last": true,
+        "panel_follows_selected_tab": true,
+        "roving_tabindex_single_zero": true,
+        "server_stopped": true
+      }
+    },
+    "full_evidence": {
+      "artifact_root": "project",
+      "tabs_found": [
+        "Photo bay",
+        "Sustainability",
+        "Workstation MSA",
+        "Engine remaining life",
+        "Ask the data"
+      ],
+      "panels": [
+        {
+          "tab": "Photo bay",
+          "header": "Scanner train-size scenarios",
+          "metrics": {},
+          "alerts": [
+            {
+              "kind": "info",
+              "text": "Example surrogate utility selects train size 4. This model is stylised, not fab-calibrated."
+            }
+          ]
+        },
+        {
+          "tab": "Sustainability",
+          "header": "Weather-adjusted meter exceptions",
+          "metrics": {
+            "Injected anomaly rows": "30",
+            "Precision": "100.0%",
+            "Recall": "93.3%"
+          },
+          "alerts": [
+            {
+              "kind": "info",
+              "text": "B00 electricity had 5 flagged hours and 50.9 kWh above the weather-adjusted baseline."
+            }
+          ]
+        },
+        {
+          "tab": "Workstation MSA",
+          "header": "Old versus new workstation",
+          "metrics": {
+            "Old %GRR": "7.63%",
+            "New %GRR": "3.28%",
+            "New − old bias": "-0.111"
+          },
+          "alerts": []
+        },
+        {
+          "tab": "Engine remaining life",
+          "header": "Simulated engine remaining life",
+          "metrics": {
+            "Official test engines": "100",
+            "RMSE (cycles)": "17.28",
+            "MAE (cycles)": "12.71"
+          },
+          "alerts": []
+        },
+        {
+          "tab": "Ask the data",
+          "header": "Ask the local data",
+          "metrics": {},
+          "alerts": []
+        }
+      ],
+      "metrics_expected_from_json": {
+        "Injected anomaly rows": "30",
+        "Precision": "100.0%",
+        "Recall": "93.3%",
+        "Old %GRR": "7.63%",
+        "New %GRR": "3.28%",
+        "New − old bias": "-0.111",
+        "Official test engines": "100",
+        "RMSE (cycles)": "17.28",
+        "MAE (cycles)": "12.71"
+      },
+      "metrics_read_from_page": {
+        "Injected anomaly rows": "30",
+        "Precision": "100.0%",
+        "Recall": "93.3%",
+        "Old %GRR": "7.63%",
+        "New %GRR": "3.28%",
+        "New − old bias": "-0.111",
+        "Official test engines": "100",
+        "RMSE (cycles)": "17.28",
+        "MAE (cycles)": "12.71"
+      },
+      "engine_interval_text": "[14.56, 19.83]",
+      "engine_tables_read_from_page": [
+        [
+          [
+            "candidate",
+            "validation RMSE (cycles)"
+          ],
+          [
+            "constant_median",
+            "56.66"
+          ],
+          [
+            "ridge",
+            "22.60"
+          ],
+          [
+            "xgboost",
+            "20.77"
+          ]
+        ],
+        [
+          [
+            "slice",
+            "engines",
+            "RMSE (cycles)"
+          ],
+          [
+            "rul_0_to_30",
+            "25",
+            "12.62"
+          ],
+          [
+            "rul_31_to_80",
+            "20",
+            "16.84"
+          ],
+          [
+            "rul_above_80",
+            "55",
+            "19.16"
+          ]
+        ]
+      ],
+      "keyboard": {
+        "steps": [
+          {
+            "key": "(focus first tab)",
+            "focused": "Photo bay",
+            "selected": [
+              "Photo bay"
+            ],
+            "tabindex": [
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Scanner train-size scenarios"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Sustainability",
+            "selected": [
+              "Sustainability"
+            ],
+            "tabindex": [
+              "-1",
+              "0",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Weather-adjusted meter exceptions"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Workstation MSA",
+            "selected": [
+              "Workstation MSA"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "0",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Old versus new workstation"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Engine remaining life",
+            "selected": [
+              "Engine remaining life"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "0",
+              "-1"
+            ],
+            "panel_header": "Simulated engine remaining life"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Photo bay",
+            "selected": [
+              "Photo bay"
+            ],
+            "tabindex": [
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Scanner train-size scenarios"
+          },
+          {
+            "key": "ArrowLeft",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "Home",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "ArrowRight",
+            "focused": "Photo bay",
+            "selected": [
+              "Photo bay"
+            ],
+            "tabindex": [
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-1"
+            ],
+            "panel_header": "Scanner train-size scenarios"
+          },
+          {
+            "key": "ArrowLeft",
+            "focused": "Ask the data",
+            "selected": [
+              "Ask the data"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "-1",
+              "0"
+            ],
+            "panel_header": "Ask the local data"
+          },
+          {
+            "key": "ArrowLeft",
+            "focused": "Engine remaining life",
+            "selected": [
+              "Engine remaining life"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "0",
+              "-1"
+            ],
+            "panel_header": "Simulated engine remaining life"
+          },
+          {
+            "key": "End",
+            "focused": "Engine remaining life",
+            "selected": [
+              "Engine remaining life"
+            ],
+            "tabindex": [
+              "-1",
+              "-1",
+              "-1",
+              "0",
+              "-1"
+            ],
+            "panel_header": "Simulated engine remaining life"
+          }
+        ],
+        "checks": {
+          "arrow_right_moves_selection_and_focus": true,
+          "arrow_right_wraps_last_to_first": true,
+          "arrow_left_wraps_first_to_last": true,
+          "panel_follows_selected_tab": true,
+          "roving_tabindex_single_zero": true
+        },
+        "observed_not_required": {
+          "home_from_last_tab_selected": [
+            "Ask the data"
+          ],
+          "home_moves_to_first_tab": false,
+          "end_pressed_from": [
+            "Engine remaining life"
+          ],
+          "end_selected": [
+            "Engine remaining life"
+          ],
+          "end_moves_to_last_tab": false
+        }
+      },
+      "keyboard_question": {
+        "question": "Which building had the highest electricity excess?",
+        "tab_moved_focus_to": "Run question",
+        "answer_shown": "B09 had the largest flagged electricity excess: 66.2 units.",
+        "cited_query_id": "top_building_excess_v1",
+        "cited_row_count": 1,
+        "ok": true
+      },
+      "screenshot": "evidence/browser/engine_tab.jpg",
+      "checks": {
+        "five_tabs_in_order": true,
+        "each_tab_header_visible": true,
+        "no_warnings_or_errors_with_complete_evidence": true,
+        "metrics_equal_saved_json": true,
+        "engine_bootstrap_interval_matches_json": true,
+        "engine_tables_equal_saved_json": true,
+        "no_script_exception": true,
+        "keyboard_question_submitted": true,
+        "arrow_right_moves_selection_and_focus": true,
+        "arrow_right_wraps_last_to_first": true,
+        "arrow_left_wraps_first_to_last": true,
+        "panel_follows_selected_tab": true,
+        "roving_tabindex_single_zero": true,
+        "server_stopped": true
+      }
+    }
+  },
+  "checks_passed": 25,
+  "checks_total": 25,
+  "ok": true
+}
