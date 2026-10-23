@@ -1,6 +1,45 @@
 # Measured local results
 
-The SECOM section below uses attributed public UCI records; the FD001 section uses NASA's public **simulated turbofan** data. All later photo, MSA, facilities and question-router results use generated seeded data (`seed=7`) or authored development cases. None estimates performance on an external fab, aircraft fleet or building. Raw inputs and generated outputs are ignored by Git where stated; compact evidence is linked below.
+The SECOM section below uses attributed public UCI records; the two C-MAPSS sections (FD001, and FD001-trained models tested on FD003) use NASA's public **simulated turbofan** data. All later photo, MSA, facilities and question-router results use generated seeded data (`seed=7`) or authored development cases. None estimates performance on an external fab, aircraft fleet or building. Raw inputs and generated outputs are ignored by Git where stated; compact evidence is linked below.
+
+## Neural remaining-life candidate tested once on C-MAPSS FD003, 23 October 2026
+
+**Protocol, committed before evaluation:** [docs/NEURAL_RUL_PROTOCOL.md](docs/NEURAL_RUL_PROTOCOL.md), committed on its own before the implementation (file SHA-256 `55062eaf…434a`, recorded in the evidence with the development repository's commit IDs). `make cmapss-neural` was then run once, on 23 October 2026 at 11:08 UTC. Evidence: [`evidence/cmapss_neural_fd003.json`](evidence/cmapss_neural_fd003.json). There were no reruns and no deviations from the protocol. At run time two Markdown files had uncommitted wording edits, so the evidence records `uncommitted_tracked_changes_at_run: true`; no code or configuration differed from the committed implementation. Before the run, a loader unit test opened the real FD003 files to check their shapes, which the protocol allows; no model saw them.
+
+**Setup.** Development used FD001 training engines only, with the same seeded 80/20 engine split, the same 80 pseudo-endpoints, the 125-cycle training cap and predictions clipped to 0–125. The FD001 official test was not scored for either model. The candidates were the existing selected XGBoost baseline (109 causal rolling features, unchanged settings) and a scikit-learn `MLPRegressor` over flattened windows of the last *N* cycles of 14 sensors plus the cycle number. It is a feed-forward network on windowed features, not an LSTM or CNN. The predeclared grid was *N* ∈ {20, 40} × hidden layers ∈ {(64), (128, 64)}, each with seeds 0–4. FD003 has one operating condition like FD001 but two fault modes, so it is a shifted test: **16,596** observed test rows from **100** truncated engines, with uncapped true RUL from 6 to 145 cycles (15 engines above the 125 cap). FD003 training rows were loaded only for the loader checks. FD002 and FD004 were not loaded.
+
+**Development (FD001, 80 pseudo-endpoints from 20 held-out engines).** The recomputed baseline reproduced its saved 19 October validation RMSE exactly (20.77).
+
+| Candidate | Input columns | Dev RMSE, 5-seed mean ± SD (min–max) | Dev MAE, mean | Dev asymmetric score, mean per case |
+|---|---:|---:|---:|---:|
+| XGBoost baseline (one fixed seed) | 109 | 20.77 | 14.62 | 14.78 |
+| MLP, window 20, hidden 64 | 281 | 20.04 ± 0.73 (18.83–20.73) | 15.00 | 11.67 |
+| MLP, window 20, hidden 128×64 | 281 | 19.99 ± 1.04 (18.74–21.50) | 14.42 | 11.80 |
+| MLP, window 40, hidden 64 | 561 | 16.87 ± 0.69 (15.90–17.46) | 12.43 | 6.65 |
+| MLP, window 40, hidden 128×64, **selected** | 561 | **16.64 ± 0.54** (16.20–17.48) | **11.97** | 6.71 |
+
+By the predeclared rules the window-40, 128×64 MLP was the chosen configuration, and because its 16.64 mean development RMSE was below the baseline's 20.77, **the MLP was the protocol-selected model**. Every MLP fit stopped early (18–68 epochs) with no convergence warning.
+
+**FD003 held-out test (100 engines, one score each at the last observed cycle).**
+
+| Model (trained on all 100 FD001 training engines) | RMSE, cycles | MAE | Bias (pred − true) | Asymmetric score, total / per engine | Engine-bootstrap RMSE 95% |
+|---|---:|---:|---:|---:|---:|
+| XGBoost baseline | **27.23** | **21.59** | +12.31 | **4,681.8 / 46.8** | [23.44, 30.72] |
+| MLP, 5-seed mean ± SD | 49.63 ± 0.75 | 33.15 ± 0.87 | +25.65 ± 1.03 | 999,177 / 9,991.8 (mean over seeds) | per-seed intervals all within [40.19, 59.02] |
+| Training-median constant (reference) | 49.80 | 41.22 | +27.68 | 154,266 / 1,542.7 | – |
+
+Per-seed MLP RMSE was 49.15, 49.41, 49.37, 50.96 and 49.26. The paired engine bootstrap gave ΔRMSE (MLP seed mean − baseline) = **+22.40 cycles, 95% interval [+15.15, +29.26]**.
+
+**Verdicts under the committed criteria.**
+- **Neural worse on FD003**: the paired interval lies entirely above zero, and none of the 5 seeds beat the baseline. The neural extension **did not succeed**: it was selected on development data and then lost clearly on the held-out subset.
+- **The baseline degraded under the shift**: 27.23 RMSE against the 19.83 threshold (the top of its FD001 official-test interval).
+- **Floor**: the baseline beat the constant reference (27.23 vs 49.80). The MLP's 5-seed mean was below it by only 0.17 cycles, and seed 3 (50.96) was above it. In practice the MLP was no better than a constant on FD003, and its asymmetric score was far worse, because its errors were large late predictions.
+
+**Where the error came from (descriptive, not used for any decision).** Both models predicted too much remaining life for engines close to failure. For the 20 engines with true RUL 0–30, baseline RMSE was 30.56 (bias +25.5) and MLP RMSE was 87.6–88.9 across seeds (bias +70.9 to +72.7), so on average it predicted about 70 more cycles than these engines had left. Per-engine predictions are not saved, so the evidence shows these slice averages only. For the 33 engines at 31–80, baseline RMSE was 34.21 and MLP 44.3–46.9; for the 47 engines above 80, baseline 18.94 and MLP 18.9–24.9. One possible explanation is that FD003's second fault mode (fan degradation) moves some sensors in ways FD001 training never showed, and raw sensor windows extrapolate worse than XGBoost's tree splits. This run did not test that explanation; it would need per-fault-mode labels, which the test files do not include.
+
+**What this does and does not show.** On FD001-like development engines a windowed MLP beat the tuned XGBoost by about 4 cycles of RMSE, but that ranking reversed on a subset with an extra fault mode. Development validation from one fault mode did not predict behaviour under this shift. The result is one simulator, one training subset and one shifted test. Intervals cover engine sampling with seeds and fitted models fixed; they do not cover the configuration choice or the simulator-to-real gap. FD003 test labels are no longer untouched. FD002 and FD004, with six operating conditions, remain unread. Nothing here is a measurement on fab equipment or an aircraft fleet.
+
+**Run details.** Apple arm64, macOS 15.3.1, 11 logical CPUs, OpenBLAS limited to one thread; Python 3.12.13, NumPy 2.2.6, pandas 2.3.3, scikit-learn 1.6.1, XGBoost 3.1.1. Wall time 35.5 s for all 26 fits and both evaluations, peak resident memory about 1.2 GB. `make test` passed **48 tests** after this change (42 before); the 6 new tests cover the FD003 loader checks, window causality, seed determinism, the selection and verdict rules, and a run on synthetic engines showing that changing every FD003 value leaves development scores and selection unchanged. `make app-test` passed. The dashboard does not show the FD003 result.
 
 ## NASA C-MAPSS FD001 remaining-life baseline, 19 October 2026
 
@@ -16,7 +55,7 @@ The model uses **109 features**: current cycle/settings/sensors plus 5- and 20-c
 
 On the official **100-engine endpoint test**, selected XGBoost reached **17.28-cycle RMSE**, **12.71-cycle MAE**, and an asymmetric score of **488.38 total / 4.88 per engine**. A fixed training-median reference reached **49.82 RMSE** and **166,570.54 total asymmetric score**; it is a deliberately simple baseline, not the best possible age-aware predictor. The score uses `d = predicted RUL − actual RUL`, summing `exp(−d/13)−1` for early predictions (`d<0`) and `exp(d/10)−1` for late predictions; late predictions cost more, following the [PHM08 scoring formulation](https://www.papers.phmsociety.org/index.php/phmconf/article/download/2348/1323). A 2,000-resample **engine-level bootstrap** of the fixed test predictions gave a descriptive RMSE interval **[14.56, 19.83]** and mean-score interval **[3.25, 6.73]**. It does not include model-selection or simulator-to-real-world uncertainty.
 
-Error varied by true remaining life: RMSE was **12.62** cycles for 25 engines at 0–30 RUL, **16.84** for 20 engines at 31–80, and **19.16** for 55 engines above 80. The evidence file [`evidence/cmapss_fd001.json`](evidence/cmapss_fd001.json) contains the exact engine split, validation scores, test metrics, interval and slices. The validation pseudo-endpoints are a fixed truncation scheme, not the official censoring mechanism. The official test was used once for the selected model and simple reference. A neural RUL model, fault-onset detector, external fleet, calibration and prospective maintenance-cost policy remain open.
+Error varied by true remaining life: RMSE was **12.62** cycles for 25 engines at 0–30 RUL, **16.84** for 20 engines at 31–80, and **19.16** for 55 engines above 80. The evidence file [`evidence/cmapss_fd001.json`](evidence/cmapss_fd001.json) contains the exact engine split, validation scores, test metrics, interval and slices. The validation pseudo-endpoints are a fixed truncation scheme, not the official censoring mechanism. The official test was used once for the selected model and simple reference. As of 19 October, a neural RUL model, fault-onset detector, external fleet, calibration and prospective maintenance-cost policy remained open; the 23 October section above adds a predeclared MLP comparison on FD003 without re-scoring this official test.
 
 ## UCI SECOM yield baseline, 18 October 2026
 
