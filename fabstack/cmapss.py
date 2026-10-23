@@ -45,28 +45,50 @@ def ensure_archive(path: Path = ARCHIVE) -> Path:
     return path
 
 
-def load_fd001(path: Path = ARCHIVE) -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray]:
+EXPECTED_SHAPES = {
+    # (train, test, RUL) table shapes; a changed archive fails closed.
+    "FD001": ((20631, 26), (13096, 26), (100, 1)),
+    "FD003": ((24720, 26), (16596, 26), (100, 1)),
+}
+
+
+def validate_tables(
+    subset: str, train: pd.DataFrame, test: pd.DataFrame, rul: pd.DataFrame
+) -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray]:
+    """Shape, engine-ID, cycle-order and label checks shared by every subset."""
+    expected = EXPECTED_SHAPES[subset]
+    if (train.shape, test.shape, rul.shape) != expected:
+        raise ValueError(f"Unexpected {subset} table shape")
+    for frame in (train, test):
+        frame.columns = COLUMNS
+        if frame.isna().any().any() or set(frame["unit"]) != set(range(1, 101)):
+            raise ValueError(f"Missing values or unexpected {subset} unit IDs")
+        consecutive = frame.groupby("unit")["cycle"].cumcount().to_numpy() + 1
+        if not np.array_equal(frame["cycle"].to_numpy(), consecutive):
+            raise ValueError(f"{subset} cycles must be ordered and consecutive within each unit")
+    labels = rul.iloc[:, 0].to_numpy(dtype=int)
+    if np.any(labels < 0):
+        raise ValueError("Negative official RUL label")
+    return train, test, labels
+
+
+def load_subset(subset: str, path: Path = ARCHIVE) -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray]:
+    if subset not in EXPECTED_SHAPES:
+        raise ValueError(f"No checked shapes for C-MAPSS subset {subset}")
     with zipfile.ZipFile(ensure_archive(path)) as outer:
         nested = [name for name in outer.namelist() if name.endswith("/CMAPSSData.zip")]
         if len(nested) != 1:
             raise ValueError("Expected one nested CMAPSSData.zip")
         with zipfile.ZipFile(io.BytesIO(outer.read(nested[0]))) as data:
-            train = pd.read_csv(io.BytesIO(data.read("train_FD001.txt")), sep=r"\s+", header=None)
-            test = pd.read_csv(io.BytesIO(data.read("test_FD001.txt")), sep=r"\s+", header=None)
-            rul = pd.read_csv(io.BytesIO(data.read("RUL_FD001.txt")), sep=r"\s+", header=None)
-    if train.shape != (20631, 26) or test.shape != (13096, 26) or rul.shape != (100, 1):
-        raise ValueError("Unexpected FD001 table shape")
-    for frame in (train, test):
-        frame.columns = COLUMNS
-        if frame.isna().any().any() or set(frame["unit"]) != set(range(1, 101)):
-            raise ValueError("Missing values or unexpected FD001 unit IDs")
-        expected = frame.groupby("unit")["cycle"].cumcount().to_numpy() + 1
-        if not np.array_equal(frame["cycle"].to_numpy(), expected):
-            raise ValueError("FD001 cycles must be ordered and consecutive within each unit")
-    labels = rul.iloc[:, 0].to_numpy(dtype=int)
-    if np.any(labels < 0):
-        raise ValueError("Negative official RUL label")
-    return train, test, labels
+            tables = [
+                pd.read_csv(io.BytesIO(data.read(f"{kind}_{subset}.txt")), sep=r"\s+", header=None)
+                for kind in ("train", "test", "RUL")
+            ]
+    return validate_tables(subset, *tables)
+
+
+def load_fd001(path: Path = ARCHIVE) -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray]:
+    return load_subset("FD001", path)
 
 
 def causal_features(frame: pd.DataFrame) -> pd.DataFrame:
@@ -95,6 +117,12 @@ def causal_features(frame: pd.DataFrame) -> pd.DataFrame:
 def targets(frame: pd.DataFrame) -> np.ndarray:
     final_cycle = frame.groupby("unit")["cycle"].transform("max")
     return (final_cycle - frame["cycle"]).to_numpy(dtype=float)
+
+
+def engine_split(seed: int = SEED) -> tuple[list[int], list[int]]:
+    """Seeded 80/20 split of the 100 training engine IDs into development and validation."""
+    engine_order = np.random.default_rng(seed).permutation(np.arange(1, 101))
+    return sorted(engine_order[:80].tolist()), sorted(engine_order[80:].tolist())
 
 
 def validation_indices(frame: pd.DataFrame, units: list[int]) -> list[int]:
@@ -170,10 +198,7 @@ def run(path: Path = ARCHIVE) -> dict:
     train_features = causal_features(train)
     raw_targets = targets(train)
     capped_targets = np.minimum(raw_targets, RUL_CAP)
-    rng = np.random.default_rng(SEED)
-    engine_order = rng.permutation(np.arange(1, 101))
-    development_units = sorted(engine_order[:80].tolist())
-    validation_units = sorted(engine_order[80:].tolist())
+    development_units, validation_units = engine_split()
     development_mask = train["unit"].isin(development_units).to_numpy()
     endpoint_indices = validation_indices(train, validation_units)
     validation_actual = raw_targets[endpoint_indices]

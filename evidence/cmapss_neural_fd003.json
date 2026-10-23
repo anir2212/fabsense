@@ -1,0 +1,961 @@
+{
+  "run_date_utc": "2026-10-23T11:08:41.010301+00:00",
+  "protocol_file": "docs/NEURAL_RUL_PROTOCOL.md",
+  "protocol_commit": "5f139b199df5e540196a39276adb8d103de67fee",
+  "protocol_sha256": "55062eafd9a4047fa94145a0d08a3f9a7feda1d6271804de71a72834a364434a",
+  "code_commit_at_run": "a6b2beb6d0a5fa5ba2237f5542e4d1452d790dff",
+  "uncommitted_tracked_changes_at_run": true,
+  "hardware": {
+    "machine": "arm64",
+    "platform": "macOS-15.3.1-arm64-arm-64bit",
+    "logical_cpus": 11,
+    "thread_limits": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "LOKY_MAX_CPU_COUNT": "4"
+    }
+  },
+  "versions": {
+    "python": "3.12.13",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.6.1",
+    "xgboost": "3.1.1"
+  },
+  "dataset": "NASA PCoE C-MAPSS, simulated turbofans: FD001 train for development, FD003 test held out",
+  "source_sha256": "c9c5dec12a945a82e8bb4446589d7fb3cc057b5e5d81fa1a12e25ee9912ad3b2",
+  "data_use": {
+    "development": "FD001 training engines only (seeded 80/20 engine split, 80 pseudo-endpoints)",
+    "fd001_official_test": "not scored in this study",
+    "fd003_train": "loaded for shape, ID and cycle checks only; not used for fitting, scaling or selection",
+    "fd003_test": "scored once per engine at its last observed cycle after selection and refit",
+    "fd002_fd004": "not loaded"
+  },
+  "training_target_cap_cycles": 125,
+  "prediction_bounds_cycles": [
+    0,
+    125
+  ],
+  "window_sensors": [
+    "sensor_02",
+    "sensor_03",
+    "sensor_04",
+    "sensor_07",
+    "sensor_08",
+    "sensor_09",
+    "sensor_11",
+    "sensor_12",
+    "sensor_13",
+    "sensor_14",
+    "sensor_15",
+    "sensor_17",
+    "sensor_20",
+    "sensor_21"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "grid": [
+    {
+      "name": "mlp_window20_hidden64",
+      "window": 20,
+      "hidden_layers": [
+        64
+      ]
+    },
+    {
+      "name": "mlp_window20_hidden128x64",
+      "window": 20,
+      "hidden_layers": [
+        128,
+        64
+      ]
+    },
+    {
+      "name": "mlp_window40_hidden64",
+      "window": 40,
+      "hidden_layers": [
+        64
+      ]
+    },
+    {
+      "name": "mlp_window40_hidden128x64",
+      "window": 40,
+      "hidden_layers": [
+        128,
+        64
+      ]
+    }
+  ],
+  "development_engine_count": 80,
+  "validation_engine_ids": [
+    6,
+    12,
+    16,
+    19,
+    22,
+    26,
+    32,
+    34,
+    35,
+    39,
+    42,
+    44,
+    53,
+    61,
+    67,
+    70,
+    72,
+    73,
+    88,
+    96
+  ],
+  "validation_endpoint_count": 80,
+  "development": {
+    "baseline": {
+      "model": "xgboost",
+      "feature_count": 109,
+      "n": 80,
+      "rmse": 20.768165395590945,
+      "mae": 14.623275953531266,
+      "bias_pred_minus_actual": -0.2774032652378082,
+      "nasa_score_sum": 1182.3733531131102,
+      "nasa_score_mean": 14.779666913913877,
+      "fit": {
+        "fit_seconds": 0.29,
+        "convergence_warnings": 0
+      },
+      "saved_fd001_validation_rmse": 20.768165395590945,
+      "reproduces_saved_within_0_01": true
+    },
+    "mlp": {
+      "mlp_window20_hidden64": {
+        "window": 20,
+        "hidden_layers": [
+          64
+        ],
+        "input_columns": 281,
+        "per_seed": [
+          {
+            "seed": 0,
+            "n": 80,
+            "rmse": 19.99461325478754,
+            "mae": 15.276448001770124,
+            "bias_pred_minus_actual": 3.44520377231376,
+            "nasa_score_sum": 705.4473996609015,
+            "nasa_score_mean": 8.818092495761269,
+            "fit_seconds": 0.96,
+            "convergence_warnings": 0,
+            "epochs": 49,
+            "best_internal_validation_r2": 0.8488252040943279
+          },
+          {
+            "seed": 1,
+            "n": 80,
+            "rmse": 20.725257169239338,
+            "mae": 14.803652405139525,
+            "bias_pred_minus_actual": 2.69465115458914,
+            "nasa_score_sum": 1288.2330644404115,
+            "nasa_score_mean": 16.102913305505144,
+            "fit_seconds": 0.95,
+            "convergence_warnings": 0,
+            "epochs": 48,
+            "best_internal_validation_r2": 0.8655176476697828
+          },
+          {
+            "seed": 2,
+            "n": 80,
+            "rmse": 20.19153740805582,
+            "mae": 15.252810784352812,
+            "bias_pred_minus_actual": 3.8910304671245073,
+            "nasa_score_sum": 987.9592365212065,
+            "nasa_score_mean": 12.349490456515081,
+            "fit_seconds": 1.31,
+            "convergence_warnings": 0,
+            "epochs": 68,
+            "best_internal_validation_r2": 0.8545705377673702
+          },
+          {
+            "seed": 3,
+            "n": 80,
+            "rmse": 20.463556041551826,
+            "mae": 15.282506373650893,
+            "bias_pred_minus_actual": 4.698253629897762,
+            "nasa_score_sum": 946.8706313404975,
+            "nasa_score_mean": 11.835882891756219,
+            "fit_seconds": 1.13,
+            "convergence_warnings": 0,
+            "epochs": 57,
+            "best_internal_validation_r2": 0.8645738256600475
+          },
+          {
+            "seed": 4,
+            "n": 80,
+            "rmse": 18.82731122137401,
+            "mae": 14.392742264873657,
+            "bias_pred_minus_actual": 3.316095062823572,
+            "nasa_score_sum": 738.4580902810956,
+            "nasa_score_mean": 9.230726128513695,
+            "fit_seconds": 1.11,
+            "convergence_warnings": 0,
+            "epochs": 59,
+            "best_internal_validation_r2": 0.8618980086240966
+          }
+        ],
+        "summary": {
+          "rmse": {
+            "mean": 20.040455019001705,
+            "sd": 0.7322249807272614,
+            "min": 18.82731122137401,
+            "max": 20.725257169239338
+          },
+          "mae": {
+            "mean": 15.001631965957404,
+            "sd": 0.3960579691898,
+            "min": 14.392742264873657,
+            "max": 15.282506373650893
+          },
+          "bias_pred_minus_actual": {
+            "mean": 3.6090468173497485,
+            "sd": 0.7440885298812466,
+            "min": 2.69465115458914,
+            "max": 4.698253629897762
+          },
+          "nasa_score_sum": {
+            "mean": 933.3936844488226,
+            "sd": 234.00288875644307,
+            "min": 705.4473996609015,
+            "max": 1288.2330644404115
+          },
+          "nasa_score_mean": {
+            "mean": 11.66742105561028,
+            "sd": 2.925036109455539,
+            "min": 8.818092495761269,
+            "max": 16.102913305505144
+          }
+        }
+      },
+      "mlp_window20_hidden128x64": {
+        "window": 20,
+        "hidden_layers": [
+          128,
+          64
+        ],
+        "input_columns": 281,
+        "per_seed": [
+          {
+            "seed": 0,
+            "n": 80,
+            "rmse": 21.504371408572,
+            "mae": 15.434267879165066,
+            "bias_pred_minus_actual": 3.5123884204158577,
+            "nasa_score_sum": 1216.5419997642134,
+            "nasa_score_mean": 15.206774997052667,
+            "fit_seconds": 1.05,
+            "convergence_warnings": 0,
+            "epochs": 26,
+            "best_internal_validation_r2": 0.8738246768344968
+          },
+          {
+            "seed": 1,
+            "n": 80,
+            "rmse": 19.664841501085114,
+            "mae": 14.305215969377343,
+            "bias_pred_minus_actual": 4.546204971951636,
+            "nasa_score_sum": 819.9965767780932,
+            "nasa_score_mean": 10.249957209726166,
+            "fit_seconds": 0.89,
+            "convergence_warnings": 0,
+            "epochs": 19,
+            "best_internal_validation_r2": 0.8690068080965409
+          },
+          {
+            "seed": 2,
+            "n": 80,
+            "rmse": 18.741804403158664,
+            "mae": 13.415483336662977,
+            "bias_pred_minus_actual": 2.842350514137112,
+            "nasa_score_sum": 782.8961530981419,
+            "nasa_score_mean": 9.786201913726774,
+            "fit_seconds": 1.05,
+            "convergence_warnings": 0,
+            "epochs": 25,
+            "best_internal_validation_r2": 0.8663134895132638
+          },
+          {
+            "seed": 3,
+            "n": 80,
+            "rmse": 19.603301903483636,
+            "mae": 13.950539517639333,
+            "bias_pred_minus_actual": 3.7792578954883473,
+            "nasa_score_sum": 864.3522455644978,
+            "nasa_score_mean": 10.804403069556223,
+            "fit_seconds": 0.8,
+            "convergence_warnings": 0,
+            "epochs": 18,
+            "best_internal_validation_r2": 0.874770236212578
+          },
+          {
+            "seed": 4,
+            "n": 80,
+            "rmse": 20.41538303218198,
+            "mae": 15.000688229061973,
+            "bias_pred_minus_actual": 3.598179121273513,
+            "nasa_score_sum": 1037.5537518391625,
+            "nasa_score_mean": 12.96942189798953,
+            "fit_seconds": 1.08,
+            "convergence_warnings": 0,
+            "epochs": 28,
+            "best_internal_validation_r2": 0.863201246844829
+          }
+        ],
+        "summary": {
+          "rmse": {
+            "mean": 19.98594044969628,
+            "sd": 1.0353072976978128,
+            "min": 18.741804403158664,
+            "max": 21.504371408572
+          },
+          "mae": {
+            "mean": 14.42123898638134,
+            "sd": 0.8075507290175191,
+            "min": 13.415483336662977,
+            "max": 15.434267879165066
+          },
+          "bias_pred_minus_actual": {
+            "mean": 3.655676184653293,
+            "sd": 0.6110748526690558,
+            "min": 2.842350514137112,
+            "max": 4.546204971951636
+          },
+          "nasa_score_sum": {
+            "mean": 944.2681454088219,
+            "sd": 180.76652749666175,
+            "min": 782.8961530981419,
+            "max": 1216.5419997642134
+          },
+          "nasa_score_mean": {
+            "mean": 11.803351817610272,
+            "sd": 2.2595815937082713,
+            "min": 9.786201913726774,
+            "max": 15.206774997052667
+          }
+        }
+      },
+      "mlp_window40_hidden64": {
+        "window": 40,
+        "hidden_layers": [
+          64
+        ],
+        "input_columns": 561,
+        "per_seed": [
+          {
+            "seed": 0,
+            "n": 80,
+            "rmse": 17.29018205218345,
+            "mae": 12.5516318027897,
+            "bias_pred_minus_actual": 4.244881215223981,
+            "nasa_score_sum": 705.6323834553398,
+            "nasa_score_mean": 8.820404793191747,
+            "fit_seconds": 1.23,
+            "convergence_warnings": 0,
+            "epochs": 45,
+            "best_internal_validation_r2": 0.8936341390190016
+          },
+          {
+            "seed": 1,
+            "n": 80,
+            "rmse": 16.390167492376317,
+            "mae": 12.15042796894052,
+            "bias_pred_minus_actual": 4.452886872683974,
+            "nasa_score_sum": 541.1995176366487,
+            "nasa_score_mean": 6.764993970458109,
+            "fit_seconds": 1.4,
+            "convergence_warnings": 0,
+            "epochs": 49,
+            "best_internal_validation_r2": 0.8932088021392403
+          },
+          {
+            "seed": 2,
+            "n": 80,
+            "rmse": 15.900109327407927,
+            "mae": 11.371454592615022,
+            "bias_pred_minus_actual": 3.0910866142079954,
+            "nasa_score_sum": 399.5150342857535,
+            "nasa_score_mean": 4.993937928571919,
+            "fit_seconds": 1.25,
+            "convergence_warnings": 0,
+            "epochs": 42,
+            "best_internal_validation_r2": 0.8963482892217287
+          },
+          {
+            "seed": 3,
+            "n": 80,
+            "rmse": 17.3262860149737,
+            "mae": 12.866363947644137,
+            "bias_pred_minus_actual": 4.388439570534856,
+            "nasa_score_sum": 509.1443217805809,
+            "nasa_score_mean": 6.3643040222572616,
+            "fit_seconds": 1.13,
+            "convergence_warnings": 0,
+            "epochs": 38,
+            "best_internal_validation_r2": 0.8837776249824939
+          },
+          {
+            "seed": 4,
+            "n": 80,
+            "rmse": 17.455967701621454,
+            "mae": 13.22045170659818,
+            "bias_pred_minus_actual": 2.3507420286058984,
+            "nasa_score_sum": 503.5572896999953,
+            "nasa_score_mean": 6.2944661212499415,
+            "fit_seconds": 1.22,
+            "convergence_warnings": 0,
+            "epochs": 41,
+            "best_internal_validation_r2": 0.8904904237287067
+          }
+        ],
+        "summary": {
+          "rmse": {
+            "mean": 16.87254251771257,
+            "sd": 0.6890215638775657,
+            "min": 15.900109327407927,
+            "max": 17.455967701621454
+          },
+          "mae": {
+            "mean": 12.432066003717512,
+            "sd": 0.7121585583469405,
+            "min": 11.371454592615022,
+            "max": 13.22045170659818
+          },
+          "bias_pred_minus_actual": {
+            "mean": 3.705607260251341,
+            "sd": 0.9392548378863442,
+            "min": 2.3507420286058984,
+            "max": 4.452886872683974
+          },
+          "nasa_score_sum": {
+            "mean": 531.8097093716636,
+            "sd": 110.8109771106835,
+            "min": 399.5150342857535,
+            "max": 705.6323834553398
+          },
+          "nasa_score_mean": {
+            "mean": 6.6476213671457955,
+            "sd": 1.3851372138835436,
+            "min": 4.993937928571919,
+            "max": 8.820404793191747
+          }
+        }
+      },
+      "mlp_window40_hidden128x64": {
+        "window": 40,
+        "hidden_layers": [
+          128,
+          64
+        ],
+        "input_columns": 561,
+        "per_seed": [
+          {
+            "seed": 0,
+            "n": 80,
+            "rmse": 17.47547530817967,
+            "mae": 11.896634972565803,
+            "bias_pred_minus_actual": 3.872647587341408,
+            "nasa_score_sum": 765.3143350759636,
+            "nasa_score_mean": 9.566429188449545,
+            "fit_seconds": 1.57,
+            "convergence_warnings": 0,
+            "epochs": 26,
+            "best_internal_validation_r2": 0.9149264348597741
+          },
+          {
+            "seed": 1,
+            "n": 80,
+            "rmse": 16.38682153516451,
+            "mae": 11.640207801776436,
+            "bias_pred_minus_actual": -0.027642325827117988,
+            "nasa_score_sum": 494.4996433731014,
+            "nasa_score_mean": 6.181245542163767,
+            "fit_seconds": 1.37,
+            "convergence_warnings": 0,
+            "epochs": 22,
+            "best_internal_validation_r2": 0.9136825185861505
+          },
+          {
+            "seed": 2,
+            "n": 80,
+            "rmse": 16.25923816129569,
+            "mae": 11.588908303771372,
+            "bias_pred_minus_actual": 2.888298175015274,
+            "nasa_score_sum": 545.3106850175772,
+            "nasa_score_mean": 6.8163835627197145,
+            "fit_seconds": 1.63,
+            "convergence_warnings": 0,
+            "epochs": 27,
+            "best_internal_validation_r2": 0.915009966037404
+          },
+          {
+            "seed": 3,
+            "n": 80,
+            "rmse": 16.873700909680004,
+            "mae": 12.464319483062294,
+            "bias_pred_minus_actual": 0.9567267083127092,
+            "nasa_score_sum": 507.9337855198286,
+            "nasa_score_mean": 6.349172318997857,
+            "fit_seconds": 1.81,
+            "convergence_warnings": 0,
+            "epochs": 30,
+            "best_internal_validation_r2": 0.9019548320768457
+          },
+          {
+            "seed": 4,
+            "n": 80,
+            "rmse": 16.199967161366995,
+            "mae": 12.249109461511457,
+            "bias_pred_minus_actual": 3.273781338085528,
+            "nasa_score_sum": 372.882647970631,
+            "nasa_score_mean": 4.6610330996328875,
+            "fit_seconds": 1.51,
+            "convergence_warnings": 0,
+            "epochs": 25,
+            "best_internal_validation_r2": 0.9087419614906161
+          }
+        ],
+        "summary": {
+          "rmse": {
+            "mean": 16.639040615137375,
+            "sd": 0.537433325076694,
+            "min": 16.199967161366995,
+            "max": 17.47547530817967
+          },
+          "mae": {
+            "mean": 11.967836004537473,
+            "sd": 0.38131569291478934,
+            "min": 11.588908303771372,
+            "max": 12.464319483062294
+          },
+          "bias_pred_minus_actual": {
+            "mean": 2.1927622965855607,
+            "sd": 1.653206549336392,
+            "min": -0.027642325827117988,
+            "max": 3.872647587341408
+          },
+          "nasa_score_sum": {
+            "mean": 537.1882193914204,
+            "sd": 142.98772353658285,
+            "min": 372.882647970631,
+            "max": 765.3143350759636
+          },
+          "nasa_score_mean": {
+            "mean": 6.714852742392755,
+            "sd": 1.7873465442072851,
+            "min": 4.6610330996328875,
+            "max": 9.566429188449545
+          }
+        }
+      }
+    }
+  },
+  "selection": {
+    "mlp_config_rule": "lowest 5-seed mean development RMSE; ties to smaller window, then smaller network",
+    "mlp_config_selected": "mlp_window40_hidden128x64",
+    "model_rule": "MLP only if its 5-seed mean development RMSE is below the baseline's",
+    "baseline_development_rmse": 20.768165395590945,
+    "mlp_development_rmse_mean": 16.639040615137375,
+    "protocol_selected_model": "mlp"
+  },
+  "fd003_test": {
+    "test_rows": 16596,
+    "test_engines": 100,
+    "truth_min_max": [
+      6,
+      145
+    ],
+    "truth_above_cap": 15,
+    "baseline": {
+      "n": 100,
+      "rmse": 27.230659535500628,
+      "mae": 21.592651720046998,
+      "bias_pred_minus_actual": 12.308824300765991,
+      "nasa_score_sum": 4681.762840782539,
+      "nasa_score_mean": 46.81762840782539,
+      "ci_95": {
+        "method": "2000 engine-level bootstrap resamples of the fixed test predictions",
+        "rmse_95": [
+          23.444671602512365,
+          30.717931630244188
+        ],
+        "nasa_score_mean_95": [
+          20.56683165849019,
+          79.5738727696112
+        ]
+      },
+      "rul_slices": {
+        "rul_0_to_30": {
+          "n": 20,
+          "rmse": 30.55562107461415,
+          "mae": 26.51049780845642,
+          "bias_pred_minus_actual": 25.52949776649475,
+          "nasa_score_sum": 598.4319349846886,
+          "nasa_score_mean": 29.921596749234432
+        },
+        "rul_31_to_80": {
+          "n": 33,
+          "rmse": 34.205063241874704,
+          "mae": 26.537459922559332,
+          "bias_pred_minus_actual": 23.92431184017297,
+          "nasa_score_sum": 3825.6382409308803,
+          "nasa_score_mean": 115.92843154336
+        },
+        "rul_above_80": {
+          "n": 47,
+          "rmse": 18.944719520935873,
+          "mae": 16.02806464661943,
+          "bias_pred_minus_actual": -1.4725492761490193,
+          "nasa_score_sum": 257.69266486697006,
+          "nasa_score_mean": 5.482822656744044
+        }
+      },
+      "prediction_min_max": [
+        7.579594612121582,
+        125.0
+      ],
+      "refit": {
+        "fit_seconds": 0.32,
+        "convergence_warnings": 0
+      }
+    },
+    "mlp": {
+      "config": "mlp_window40_hidden128x64",
+      "per_seed": [
+        {
+          "seed": 0,
+          "n": 100,
+          "rmse": 49.14743388021076,
+          "mae": 32.579568161667616,
+          "bias_pred_minus_actual": 24.047363238538846,
+          "nasa_score_sum": 921762.053592535,
+          "nasa_score_mean": 9217.620535925349,
+          "ci_95": {
+            "method": "2000 engine-level bootstrap resamples of the fixed test predictions",
+            "rmse_95": [
+              40.3297788112114,
+              56.98599404939625
+            ],
+            "nasa_score_mean_95": [
+              3972.934562402309,
+              15175.652901070596
+            ]
+          },
+          "rul_slices": {
+            "rul_0_to_30": {
+              "n": 20,
+              "rmse": 87.63430690119819,
+              "mae": 72.82822380858893,
+              "bias_pred_minus_actual": 70.92410980760414,
+              "nasa_score_sum": 897532.0028535833,
+              "nasa_score_mean": 44876.60014267916
+            },
+            "rul_31_to_80": {
+              "n": 33,
+              "rmse": 44.26398986019203,
+              "mae": 31.985255244685415,
+              "bias_pred_minus_actual": 26.131764502714944,
+              "nasa_score_sum": 22893.84408454813,
+              "nasa_score_mean": 693.7528510469131
+            },
+            "rul_above_80": {
+              "n": 47,
+              "rmse": 22.262775168034835,
+              "mae": 15.869764189794997,
+              "bias_pred_minus_actual": 2.6362957257916744,
+              "nasa_score_sum": 1336.2066544035426,
+              "nasa_score_mean": 28.429928817096652
+            }
+          },
+          "refit": {
+            "fit_seconds": 1.87,
+            "convergence_warnings": 0,
+            "epochs": 25,
+            "best_internal_validation_r2": 0.9046167854270858
+          }
+        },
+        {
+          "seed": 1,
+          "n": 100,
+          "rmse": 49.41432647225271,
+          "mae": 32.66345066568065,
+          "bias_pred_minus_actual": 26.506448705168985,
+          "nasa_score_sum": 1017774.071498217,
+          "nasa_score_mean": 10177.74071498217,
+          "ci_95": {
+            "method": "2000 engine-level bootstrap resamples of the fixed test predictions",
+            "rmse_95": [
+              40.429667326890616,
+              57.450184899379536
+            ],
+            "nasa_score_mean_95": [
+              4784.157621099129,
+              16333.305642449128
+            ]
+          },
+          "rul_slices": {
+            "rul_0_to_30": {
+              "n": 20,
+              "rmse": 88.8171617296401,
+              "mae": 73.42130385320289,
+              "bias_pred_minus_actual": 72.67903772304234,
+              "nasa_score_sum": 986854.5362581145,
+              "nasa_score_mean": 49342.72681290573
+            },
+            "rul_31_to_80": {
+              "n": 33,
+              "rmse": 45.96101889516046,
+              "mae": 33.12155379887729,
+              "bias_pred_minus_actual": 28.79183628493496,
+              "nasa_score_sum": 30558.34792226023,
+              "nasa_score_mean": 926.0105430987949
+            },
+            "rul_above_80": {
+              "n": 47,
+              "rmse": 18.848837768997733,
+              "mae": 14.998036471086312,
+              "bias_pred_minus_actual": 5.2539046521957165,
+              "nasa_score_sum": 361.18731784217033,
+              "nasa_score_mean": 7.6848365498334115
+            }
+          },
+          "refit": {
+            "fit_seconds": 1.59,
+            "convergence_warnings": 0,
+            "epochs": 20,
+            "best_internal_validation_r2": 0.910507695887387
+          }
+        },
+        {
+          "seed": 2,
+          "n": 100,
+          "rmse": 49.37021158570254,
+          "mae": 33.16954056648507,
+          "bias_pred_minus_actual": 26.508760592822323,
+          "nasa_score_sum": 1016900.2965740466,
+          "nasa_score_mean": 10169.002965740467,
+          "ci_95": {
+            "method": "2000 engine-level bootstrap resamples of the fixed test predictions",
+            "rmse_95": [
+              40.474747117923215,
+              57.30904525019428
+            ],
+            "nasa_score_mean_95": [
+              4784.5116330297005,
+              16324.205030829946
+            ]
+          },
+          "rul_slices": {
+            "rul_0_to_30": {
+              "n": 20,
+              "rmse": 88.85733136243579,
+              "mae": 73.93375507062089,
+              "bias_pred_minus_actual": 71.96658049130205,
+              "nasa_score_sum": 986856.0278084227,
+              "nasa_score_mean": 49342.80139042113
+            },
+            "rul_31_to_80": {
+              "n": 33,
+              "rmse": 45.542175308663516,
+              "mae": 33.35625076122399,
+              "bias_pred_minus_actual": 29.41728558451003,
+              "nasa_score_sum": 29677.726631719317,
+              "nasa_score_mean": 899.3250494460399
+            },
+            "rul_above_80": {
+              "n": 47,
+              "rmse": 19.23223762650081,
+              "mae": 15.691971917355266,
+              "bias_pred_minus_actual": 5.122851599305537,
+              "nasa_score_sum": 366.54213390441913,
+              "nasa_score_mean": 7.798768806477002
+            }
+          },
+          "refit": {
+            "fit_seconds": 1.78,
+            "convergence_warnings": 0,
+            "epochs": 25,
+            "best_internal_validation_r2": 0.9134042885756326
+          }
+        },
+        {
+          "seed": 3,
+          "n": 100,
+          "rmse": 50.95966475538975,
+          "mae": 34.64334514893133,
+          "bias_pred_minus_actual": 25.30036576583184,
+          "nasa_score_sum": 1022435.5808289158,
+          "nasa_score_mean": 10224.355808289158,
+          "ci_95": {
+            "method": "2000 engine-level bootstrap resamples of the fixed test predictions",
+            "rmse_95": [
+              42.17725124322511,
+              59.02364236535815
+            ],
+            "nasa_score_mean_95": [
+              4787.550740093924,
+              16371.333172570019
+            ]
+          },
+          "rul_slices": {
+            "rul_0_to_30": {
+              "n": 20,
+              "rmse": 88.89338552678036,
+              "mae": 74.34394484564218,
+              "bias_pred_minus_actual": 72.3468394710122,
+              "nasa_score_sum": 986857.7541197446,
+              "nasa_score_mean": 49342.88770598723
+            },
+            "rul_31_to_80": {
+              "n": 33,
+              "rmse": 46.88336490519905,
+              "mae": 34.328799151274694,
+              "bias_pred_minus_actual": 28.669839347118085,
+              "nasa_score_sum": 30831.34568975386,
+              "nasa_score_mean": 934.283202719814
+            },
+            "rul_above_80": {
+              "n": 47,
+              "rmse": 24.888011524987377,
+              "mae": 17.970324382728194,
+              "bias_pred_minus_actual": 2.914789121447727,
+              "nasa_score_sum": 4746.481019417224,
+              "nasa_score_mean": 100.98895785994094
+            }
+          },
+          "refit": {
+            "fit_seconds": 1.78,
+            "convergence_warnings": 0,
+            "epochs": 25,
+            "best_internal_validation_r2": 0.8986388139001813
+          }
+        },
+        {
+          "seed": 4,
+          "n": 100,
+          "rmse": 49.26014548433706,
+          "mae": 32.68176056044138,
+          "bias_pred_minus_actual": 25.885641351278824,
+          "nasa_score_sum": 1017014.6441668959,
+          "nasa_score_mean": 10170.14644166896,
+          "ci_95": {
+            "method": "2000 engine-level bootstrap resamples of the fixed test predictions",
+            "rmse_95": [
+              40.190803763486656,
+              57.24135207527884
+            ],
+            "nasa_score_mean_95": [
+              4783.332656648071,
+              16325.360505731407
+            ]
+          },
+          "rul_slices": {
+            "rul_0_to_30": {
+              "n": 20,
+              "rmse": 88.86381428503401,
+              "mae": 73.58983806321326,
+              "bias_pred_minus_actual": 72.44597935360726,
+              "nasa_score_sum": 986856.2182630779,
+              "nasa_score_mean": 49342.810913153895
+            },
+            "rul_31_to_80": {
+              "n": 33,
+              "rmse": 45.15412157030642,
+              "mae": 32.3059195196086,
+              "bias_pred_minus_actual": 28.646040928591958,
+              "nasa_score_sum": 29797.94497640252,
+              "nasa_score_mean": 902.9680295879551
+            },
+            "rul_above_80": {
+              "n": 47,
+              "rmse": 19.26142578854955,
+              "mae": 15.537956396442327,
+              "bias_pred_minus_actual": 4.134578668344738,
+              "nasa_score_sum": 360.480927415375,
+              "nasa_score_mean": 7.6698069662845745
+            }
+          },
+          "refit": {
+            "fit_seconds": 1.79,
+            "convergence_warnings": 0,
+            "epochs": 23,
+            "best_internal_validation_r2": 0.9140541772528814
+          }
+        }
+      ],
+      "summary": {
+        "rmse": {
+          "mean": 49.63035643557856,
+          "sd": 0.7502791547139205,
+          "min": 49.14743388021076,
+          "max": 50.95966475538975
+        },
+        "mae": {
+          "mean": 33.147533020641205,
+          "sd": 0.8677272104912276,
+          "min": 32.579568161667616,
+          "max": 34.64334514893133
+        },
+        "bias_pred_minus_actual": {
+          "mean": 25.649715930728167,
+          "sd": 1.0267898117695489,
+          "min": 24.047363238538846,
+          "max": 26.508760592822323
+        },
+        "nasa_score_sum": {
+          "mean": 999177.329332122,
+          "sd": 43336.42627193028,
+          "min": 921762.053592535,
+          "max": 1022435.5808289158
+        },
+        "nasa_score_mean": {
+          "mean": 9991.77329332122,
+          "sd": 433.3642627193032,
+          "min": 9217.620535925349,
+          "max": 10224.355808289158
+        }
+      },
+      "prediction_min_max": [
+        0.0,
+        125.0
+      ]
+    },
+    "constant_median_reference": {
+      "n": 100,
+      "rmse": 49.797389489811614,
+      "mae": 41.22,
+      "bias_pred_minus_actual": 27.68,
+      "nasa_score_sum": 154266.2617824055,
+      "nasa_score_mean": 1542.662617824055
+    },
+    "paired_comparison": {
+      "statistic": "mean over seeds of MLP RMSE minus baseline RMSE, cycles",
+      "method": "2000 paired engine-level bootstrap resamples; seeds and models fixed",
+      "point": 22.399696900077934,
+      "interval_95": [
+        15.147176734215739,
+        29.25981998889185
+      ]
+    }
+  },
+  "verdicts": {
+    "fd003_comparison": "neural worse",
+    "seeds_beating_baseline": 0,
+    "neural_extension_succeeds": false,
+    "baseline_degraded_threshold_rmse": 19.83,
+    "baseline_degraded_under_shift": true,
+    "baseline_beats_constant_floor": true,
+    "mlp_seed_mean_beats_constant_floor": true
+  },
+  "scope": "simulated turbofans; FD001-trained models scored once on FD003 test endpoints (one condition, two fault modes); no physical fleet, fab equipment or onset validation"
+}
