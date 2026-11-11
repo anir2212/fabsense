@@ -46,10 +46,13 @@ def ensure_archive(path: Path = ARCHIVE) -> Path:
 
 
 EXPECTED_SHAPES = {
-    # (train, test, RUL) table shapes; a changed archive fails closed.
+    # (train, test, RUL) table shapes; FD004 counts were checked after the archive
+    # readme reversed train/test engines, then frozen before endpoint scoring.
     "FD001": ((20631, 26), (13096, 26), (100, 1)),
     "FD003": ((24720, 26), (16596, 26), (100, 1)),
+    "FD004": ((61249, 26), (41214, 26), (248, 1)),
 }
+EXPECTED_ENGINES = {"FD001": (100, 100), "FD003": (100, 100), "FD004": (249, 248)}
 
 
 def validate_tables(
@@ -59,10 +62,12 @@ def validate_tables(
     expected = EXPECTED_SHAPES[subset]
     if (train.shape, test.shape, rul.shape) != expected:
         raise ValueError(f"Unexpected {subset} table shape")
-    for frame in (train, test):
+    for frame, engine_count in zip((train, test), EXPECTED_ENGINES[subset]):
         frame.columns = COLUMNS
-        if frame.isna().any().any() or set(frame["unit"]) != set(range(1, 101)):
+        if frame.isna().any().any() or set(frame["unit"]) != set(range(1, engine_count + 1)):
             raise ValueError(f"Missing values or unexpected {subset} unit IDs")
+        if not frame["unit"].is_monotonic_increasing:
+            raise ValueError(f"{subset} unit IDs must be ordered")
         consecutive = frame.groupby("unit")["cycle"].cumcount().to_numpy() + 1
         if not np.array_equal(frame["cycle"].to_numpy(), consecutive):
             raise ValueError(f"{subset} cycles must be ordered and consecutive within each unit")
