@@ -74,7 +74,7 @@ class AnalyticsAgent:
     def search_docs(query: str, root: Path = Path(".")) -> list[dict]:
         words = set(re.findall(r"[a-z]{4,}", query.lower()))
         matches = []
-        for path in (root / "README.md", root / "RESULTS.md"):
+        for path in (root / "README.md", root / "PROJECT_LOG.md", root / "RESULTS.md"):
             if not path.exists():
                 continue
             for number, line in enumerate(path.read_text().splitlines(), start=1):

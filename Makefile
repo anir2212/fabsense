@@ -3,7 +3,7 @@ export MPLCONFIGDIR := $(CURDIR)/.mplconfig
 export LOKY_MAX_CPU_COUNT := 4
 export OPENBLAS_NUM_THREADS := 1
 
-.PHONY: all photo msa utilities figures agent secom cmapss cmapss-neural test app-test browser-test a11y-scan boundary-check dashboard
+.PHONY: all photo msa utilities figures agent secom cmapss cmapss-neural cmapss-fd004-transfer cmapss-fd002-transfer test app-test browser-test a11y-scan boundary-check dashboard
 all: photo msa utilities figures agent
 photo:
 	$(PYTHON) -m fabstack.sim_grid
@@ -21,6 +21,10 @@ cmapss:
 	$(PYTHON) -m fabstack.cmapss
 cmapss-neural:
 	$(PYTHON) -m fabstack.cmapss_neural
+cmapss-fd004-transfer:
+	$(PYTHON) -m fabstack.cmapss_fd004_transfer
+cmapss-fd002-transfer:
+	$(PYTHON) -m fabstack.cmapss_fd002_transfer
 test:
 	$(PYTHON) -m pytest -q
 app-test:
